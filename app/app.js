@@ -29,7 +29,10 @@ import '!file-loader?name=[name].[ext]!../public/favicons/favicon.ico'; // eslin
 import 'file-loader?name=.htaccess!./.htaccess'; // eslint-disable-line
 /* eslint-enable import/no-unresolved, import/extensions */
 
+import { createFirestoreInstance } from 'redux-firestore';
+import { ReactReduxFirebaseProvider } from 'react-redux-firebase';
 import configureStore from './redux/configureStore';
+import firebase from './config/firebaseConfig';
 
 // Import i18n messages
 import { translationMessages } from './i18n';
@@ -39,14 +42,24 @@ const initialState = {};
 const store = configureStore(initialState, history);
 const MOUNT_NODE = document.getElementById('app');
 
+const rrfConfig = {};
+const rrfProps = {
+  firebase,
+  config: rrfConfig,
+  dispatch: store.dispatch,
+  createFirestoreInstance // <- needed if using firestore
+};
+
 const render = messages => {
   ReactDOM.render(
     <Provider store={store}>
-      <LanguageProvider messages={messages}>
-        <ConnectedRouter history={history}>
-          <App />
-        </ConnectedRouter>
-      </LanguageProvider>
+      <ReactReduxFirebaseProvider {...rrfProps}>
+        <LanguageProvider messages={messages}>
+          <ConnectedRouter history={history}>
+            <App />
+          </ConnectedRouter>
+        </LanguageProvider>
+      </ReactReduxFirebaseProvider>
     </Provider>,
     MOUNT_NODE,
   );

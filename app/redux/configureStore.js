@@ -6,7 +6,9 @@ import { createStore, applyMiddleware, compose } from 'redux';
 import { routerMiddleware } from 'connected-react-router';
 import { fromJS } from 'immutable';
 import createSagaMiddleware from 'redux-saga';
+import { reduxFirestore } from 'redux-firestore';
 import createReducer from './reducers';
+import firebase from '../config/firebaseConfig';
 
 export default function configureStore(initialState = {}, history) {
   let composeEnhancers = compose;
@@ -27,6 +29,10 @@ export default function configureStore(initialState = {}, history) {
     /* eslint-enable */
   }
 
+  // Setup Firebase
+  const rfConfig = {};
+  const firestoreEnhancer = reduxFirestore(firebase, rfConfig);
+
   const sagaMiddleware = createSagaMiddleware(reduxSagaMonitorOptions);
 
   // Create the store with two middlewares
@@ -34,7 +40,7 @@ export default function configureStore(initialState = {}, history) {
   // 2. routerMiddleware: Syncs the location/URL path to the state
   const middlewares = [sagaMiddleware, routerMiddleware(history)];
 
-  const enhancers = [applyMiddleware(...middlewares)];
+  const enhancers = [applyMiddleware(...middlewares), firestoreEnhancer];
 
   const store = createStore(
     createReducer(),
