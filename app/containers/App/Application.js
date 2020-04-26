@@ -13,7 +13,12 @@ import {
   Form,
   Table,
   Error,
-  NotFound
+  NotFound,
+  RegisterPoliceman,
+  RegisterPoliceStation,
+  RegisterDrivers,
+  RegisterVehicles,
+  HandleComplaints
 } from '../pageListAsync';
 
 class Application extends React.Component {
@@ -23,6 +28,11 @@ class Application extends React.Component {
     } = this.props;
     if (!auth.isLoaded || !isLoaded(users)) return null;
     const loadedUser = users.filter(user => user.email === auth.email)[0];
+    console.log(users);
+    const loadedUsers = users.filter(user => user.email === auth.email);
+    // eslint-disable-next-line react/destructuring-assignment,react/prop-types
+    if (loadedUsers.length === 0) this.props.firebase.auth().signOut();
+
     const redirect = auth.uid && (loadedUser.type === 'rta' || loadedUser.type === 'policeStation');
     const logged = auth.uid;
     if (auth.uid && (loadedUser.type !== 'rta' && loadedUser.type !== 'policeStation')) {
@@ -30,7 +40,7 @@ class Application extends React.Component {
       this.props.firebase.auth().signOut();
       // window.location.href = '/';
     }
-    const a = true;
+    const a = false;
     return (
       <Dashboard history={history} changeMode={changeMode}>
         { redirect
@@ -48,11 +58,12 @@ class Application extends React.Component {
               </Switch>
             ) : (
               <Switch>
-                <Route exact path="/app" component={BlankPage} />
-                <Route path="/app/dashboard" component={BlankPage} />
-                <Route path="/app/form" component={Form} />
-                <Route path="/app/table" component={Table} />
-                <Route path="/app/page-list" component={Parent} />
+                <Route exact path="/app" component={Table} />
+                <Route path="/app/HandleComplaints" component={HandleComplaints} />
+                <Route path="/app/RegisterPolicemen" component={RegisterPoliceman} />
+                <Route path="/app/RegisterPoliceStation" component={RegisterPoliceStation} />
+                <Route path="/app/RegisterDrivers" component={RegisterDrivers} />
+                <Route path="/app/RegisterVehicles" component={RegisterVehicles} />
                 <Route path="/app/pages/not-found" component={NotFound} />
                 <Route path="/app/pages/error" component={Error} />
                 <Route component={NotFound} />

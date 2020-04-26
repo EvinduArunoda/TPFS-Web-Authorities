@@ -3,8 +3,8 @@
 export const COLLECTIONS = {
   CONFIG: 'Configs',
   USER: 'WebUsers',
-  URBANCOUNCIL: 'UrbanCouncil',
-  WASTEDISPOSED: 'WasteDisposed',
-  NOTIFICATIONS: 'Notifications',
-  WASTECOLLECTED: 'WasteCollected'
+  POLICEMAN: 'PoliceMen',
+  DRIVER: 'Drivers',
+  COMPLAINT: 'Complaint'
+
 };

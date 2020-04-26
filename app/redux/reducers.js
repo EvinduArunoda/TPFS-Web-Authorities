@@ -5,11 +5,15 @@ import { reducer as form } from 'redux-form/immutable';
 import { combineReducers } from 'redux-immutable';
 import { connectRouter } from 'connected-react-router/immutable';
 import history from 'utils/history';
+import { firestoreReducer } from 'redux-firestore';
+import { firebaseReducer } from 'react-redux-firebase';
 
 import languageProviderReducer from 'containers/LanguageProvider/reducer';
 import login from './modules/login';
 import uiReducer from './modules/ui';
 import initval from './modules/initForm';
+import loginReducer from '../containers/Login/reducer';
+
 
 /**
  * Creates the main reducer with the dynamically injected ones
@@ -20,6 +24,9 @@ export default function createReducer(injectedReducers = {}) {
     login,
     ui: uiReducer,
     initval,
+    loginReducer,
+    firebase: firebaseReducer,
+    firestore: firestoreReducer,
     language: languageProviderReducer,
     router: connectRouter(history),
     ...injectedReducers,

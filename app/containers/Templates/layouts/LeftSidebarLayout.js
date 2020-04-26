@@ -9,9 +9,14 @@ import {
   Sidebar,
   BreadCrumb,
 } from 'dan-components';
-import dataMenu from 'dan-api/ui/menu';
+import dataMenu1 from 'dan-api/ui/menu';
+import dataMenu2 from 'dan-api/ui/menu2';
+import { compose } from 'redux';
+import { firestoreConnect, isLoaded, withFirebase } from 'react-redux-firebase';
+import { connect } from 'react-redux';
 import Decoration from '../Decoration';
 import styles from '../appStyles-jss';
+import { COLLECTIONS } from '../../../config/dbConstants';
 
 class LeftSidebarLayout extends React.Component {
   render() {
@@ -30,8 +35,20 @@ class LeftSidebarLayout extends React.Component {
       changeMode,
       place,
       titleException,
-      handleOpenGuide
+      handleOpenGuide,
+      users,
+      auth
     } = this.props;
+    let dataMenu = dataMenu1;
+    if (auth.uid) {
+      if (!auth.isLoaded || !isLoaded(users)) return null;
+      const loadedUser = users.filter(user => user.email === auth.email)[0];
+      if (loadedUser.type === 'rta') {
+        dataMenu = dataMenu1;
+      } else if (loadedUser.type === 'policeStation') {
+        dataMenu = dataMenu2;
+      }
+    }
     return (
       <Fragment>
         <Header
@@ -101,7 +118,27 @@ LeftSidebarLayout.propTypes = {
   bgPosition: PropTypes.string.isRequired,
   place: PropTypes.string.isRequired,
   titleException: PropTypes.array.isRequired,
-  handleOpenGuide: PropTypes.func.isRequired
+  handleOpenGuide: PropTypes.func.isRequired,
+  // eslint-disable-next-line react/require-default-props
+  users: PropTypes.array,
+  // eslint-disable-next-line react/require-default-props
+  auth: PropTypes.object,
+  // eslint-disable-next-line react/require-default-props,react/no-unused-prop-types
 };
+const reducerFirestore = 'firestore';
 
-export default (withStyles(styles)(LeftSidebarLayout));
+
+const mapStateToProps = (state) => ({
+  auth: state.getIn(['firebase']).auth,
+  users: state.get(reducerFirestore).ordered[COLLECTIONS.USER],
+});
+
+const LeftSidebarLayoutInit = compose(
+  firestoreConnect(() => [
+    { collection: COLLECTIONS.USER },
+  ]),
+  connect(
+    mapStateToProps,
+  ))(withStyles(styles)(withFirebase(LeftSidebarLayout)));
+
+export default LeftSidebarLayoutInit;

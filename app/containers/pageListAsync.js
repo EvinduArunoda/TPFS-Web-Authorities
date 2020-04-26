@@ -57,3 +57,27 @@ export const Parent = Loadable({
   loader: () => import('./Parent'),
   loading: Loading,
 });
+export const LoginPage = Loadable({
+  loader: () => import('./Login'),
+  loading: Loading,
+});
+export const RegisterPoliceman = Loadable({
+  loader: () => import('./RegisterPoliceman'),
+  loading: Loading,
+});
+export const RegisterPoliceStation = Loadable({
+  loader: () => import('./RegisterPoliceStation'),
+  loading: Loading,
+});
+export const RegisterDrivers = Loadable({
+  loader: () => import('./RegisterDrivers'),
+  loading: Loading,
+});
+export const RegisterVehicles = Loadable({
+  loader: () => import('./RegisterVehicles'),
+  loading: Loading,
+});
+export const HandleComplaints = Loadable({
+  loader: () => import('./HandleComplaints'),
+  loading: Loading,
+});
