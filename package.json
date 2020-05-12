@@ -168,6 +168,7 @@
     "react-markdown": "^4.1.0",
     "react-modal": "^3.4.4",
     "react-number-format": "^3.3.4",
+    "react-paypal-express-checkout": "^1.0.5",
     "react-popper": "^0.10.4",
     "react-redux": "^7.0.2",
     "react-redux-firebase": "^3.3.0",

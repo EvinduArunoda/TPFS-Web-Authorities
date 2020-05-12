@@ -81,3 +81,23 @@ export const HandleComplaints = Loadable({
   loader: () => import('./HandleComplaints'),
   loading: Loading,
 });
+export const PoliceMenProfileSta = Loadable({
+  loader: () => import('./PoliceMenProfileSta'),
+  loading: Loading,
+});
+export const PoliceStationProfile = Loadable({
+  loader: () => import('./PoliceStationProfile'),
+  loading: Loading,
+});
+export const VehicleProfiles = Loadable({
+  loader: () => import('./VehicleProfiles'),
+  loading: Loading,
+});
+export const DriverProfile = Loadable({
+  loader: () => import('./DriverProfile'),
+  loading: Loading,
+});
+export const FeedBack = Loadable({
+  loader: () => import('./GiveFeedBack'),
+  loading: Loading,
+});

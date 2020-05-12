@@ -18,7 +18,12 @@ import {
   RegisterPoliceStation,
   RegisterDrivers,
   RegisterVehicles,
-  HandleComplaints
+  HandleComplaints,
+  PoliceMenProfileSta,
+  PoliceStationProfile,
+  VehicleProfiles,
+  DriverProfile,
+  FeedBack
 } from '../pageListAsync';
 
 class Application extends React.Component {
@@ -58,12 +63,17 @@ class Application extends React.Component {
               </Switch>
             ) : (
               <Switch>
-                <Route exact path="/app" component={Table} />
+                <Route exact path="/app" component={BlankPage} />
                 <Route path="/app/HandleComplaints" component={HandleComplaints} />
                 <Route path="/app/RegisterPolicemen" component={RegisterPoliceman} />
                 <Route path="/app/RegisterPoliceStation" component={RegisterPoliceStation} />
                 <Route path="/app/RegisterDrivers" component={RegisterDrivers} />
                 <Route path="/app/RegisterVehicles" component={RegisterVehicles} />
+                <Route path="/app/PoliceMenProfileSta" component={PoliceMenProfileSta} />
+                <Route path="/app/PoliceStationProfile" component={PoliceStationProfile} />
+                <Route path="/app/Vehicle-Profile" component={VehicleProfiles} />
+                <Route path="/app/Driver-Profile" component={DriverProfile} />
+                <Route path="/app/FeedBack" component={FeedBack} />
                 <Route path="/app/pages/not-found" component={NotFound} />
                 <Route path="/app/pages/error" component={Error} />
                 <Route component={NotFound} />

@@ -5,6 +5,7 @@ export const COLLECTIONS = {
   USER: 'WebUsers',
   POLICEMAN: 'PoliceMen',
   DRIVER: 'Drivers',
-  COMPLAINT: 'Complaint'
+  COMPLAINT: 'Complaint',
+  VEHICLE: 'vehicle'
 
 };

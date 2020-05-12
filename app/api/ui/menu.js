@@ -36,4 +36,28 @@ module.exports = [
     link: '/app/ManageRegionalRules',
     icon: 'ios-notifications-outline',
   },
+  {
+    key: 'PoliceMen-Profiles',
+    name: 'PoliceMen Profiles',
+    link: '/app/PoliceMenProfileSta',
+    icon: 'ios-notifications-outline',
+  },
+  {
+    key: 'PoliceStation-Profiles',
+    name: 'Police Station Profiles',
+    link: '/app/PoliceStationProfile',
+    icon: 'ios-notifications-outline',
+  },
+  {
+    key: 'VehicleProfiles',
+    name: 'Vehicle Profiles',
+    link: '/app/Vehicle-Profile',
+    icon: 'ios-notifications-outline',
+  },
+  {
+    key: 'VDriverProfiles',
+    name: 'Driver Profiles',
+    link: '/app/Driver-Profile',
+    icon: 'ios-person-outline',
+  },
 ];
