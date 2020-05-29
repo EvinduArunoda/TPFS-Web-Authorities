@@ -48,7 +48,7 @@ function VehicleProfile(props) {
     setInsuranceNumber(selVehicle.insuranceNumber);
     setlicensePlate(selVehicle.LicensePlate);
     setmakeModel(selVehicle.makeAndModel);
-    setRegNo(selVehicle.registerdNumber);
+    setRegNo(selVehicle.registeredNumber);
     setOwner(selVehicle.ownerID);
   };
 
@@ -75,6 +75,7 @@ function VehicleProfile(props) {
               {...params}
               label="Select vehicle"
               variant="outlined"
+              style={{ minWidth: 200 }}
             />
           )}
           onChange={handleStationChange}

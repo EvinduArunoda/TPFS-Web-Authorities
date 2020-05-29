@@ -35,7 +35,7 @@ class Auth extends React.Component {
               <Route component={NotFound} />
             </Switch>
           )
-          : <Redirect to="/app/RegisterPolicemen" />
+          : <Redirect to="/app" />
         }
       </Outer>
     );

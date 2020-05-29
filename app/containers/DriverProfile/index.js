@@ -49,7 +49,7 @@ function DriverProfile(props) {
     setaddress(selDriver.address);
     setlicenseNumber(selDriver.LicenseNumber);
     setNIC(selDriver.NIC);
-    setcategory(selDriver.Class);
+    setcategory(selDriver.Class.inWord);
     setName(selDriver.name);
   };
 
@@ -76,6 +76,7 @@ function DriverProfile(props) {
               {...params}
               label="Select Driver NIC"
               variant="outlined"
+              style={{ minWidth: 200 }}
             />
           )}
           onChange={handleStationChange}

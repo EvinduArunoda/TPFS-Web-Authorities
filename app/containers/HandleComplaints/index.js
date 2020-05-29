@@ -19,14 +19,38 @@ import saga from './saga';
 import { COLLECTIONS } from '../../config/dbConstants';
 import { setID, flipRedirect } from './actions';
 
-const styles = {
+const styles = theme => ({
   root: {
     flexGrow: 1
-  }
-};
+  },
+  btnArea: {
+    display: 'flex',
+    justifyContent: 'space-around',
+    margin: `${theme.spacing(2)}px 0`,
+    fontSize: 12,
+    '& $label': {
+      fontSize: 12,
+      '& span': {
+        fontSize: 12
+      }
+    },
+    '& button': {
+      margin: `0 ${theme.spacing(1)}px`
+    },
+    [theme.breakpoints.down('xs')]: {
+      flexDirection: 'column',
+      '& button': {
+        width: '100%',
+        margin: 5
+      }
+    },
+  },
+});
 
 function HandleComplaints(props) {
-  const { complaints, SetID, redirect } = props;
+  const {
+    complaints, SetID, redirect, classes
+  } = props;
 
 
   if (!complaints) {
@@ -47,10 +71,12 @@ function HandleComplaints(props) {
       {' '}
       {complaint.description}
       <br />
+      <div className={classes.btnArea}>
 
-      <Button variant="contained" color="primary" size="large" type="submit" onClick={SetID(complaint.id)}>
+        <Button variant="contained" color="primary" size="large" type="submit" onClick={() => SetID(complaint.id)}>
         Give FeedBack
-      </Button>
+        </Button>
+      </div>
 
     </PapperBlock>
   ));
@@ -71,6 +97,7 @@ function HandleComplaints(props) {
   );
 }
 HandleComplaints.propTypes = {
+  classes: PropTypes.object.isRequired,
   // eslint-disable-next-line react/require-default-props
   complaints: PropTypes.array,
   // eslint-disable-next-line react/require-default-props

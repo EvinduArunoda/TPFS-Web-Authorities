@@ -8,10 +8,7 @@ import Dashboard from '../Templates/Dashboard';
 import { COLLECTIONS } from '../../config/dbConstants';
 import {
   Parent,
-  DashboardPage,
   BlankPage,
-  Form,
-  Table,
   Error,
   NotFound,
   RegisterPoliceman,
@@ -23,13 +20,20 @@ import {
   PoliceStationProfile,
   VehicleProfiles,
   DriverProfile,
-  FeedBack
+  FeedBack,
+  RegDriverSec,
+  AssignPoliceStation,
+  AddVehicleDetails,
+  HandleOpenTickets,
+  ViewTickets,
+  EnterPaymentDetails,
+  ConfirmCloseTicket
 } from '../pageListAsync';
 
 class Application extends React.Component {
   render() {
     const {
-      changeMode, history, auth, users
+      changeMode, history, auth, users, registered, registeredPoliceMen, registeredVehicle, ticketID, ticketStatus
     } = this.props;
     if (!auth.isLoaded || !isLoaded(users)) return null;
     const loadedUser = users.filter(user => user.email === auth.email)[0];
@@ -38,14 +42,26 @@ class Application extends React.Component {
     // eslint-disable-next-line react/destructuring-assignment,react/prop-types
     if (loadedUsers.length === 0) this.props.firebase.auth().signOut();
 
-    const redirect = auth.uid && (loadedUser.type === 'rta' || loadedUser.type === 'policeStation');
     const logged = auth.uid;
-    if (auth.uid && (loadedUser.type !== 'rta' && loadedUser.type !== 'policeStation')) {
-      // eslint-disable-next-line react/destructuring-assignment,react/prop-types
-      this.props.firebase.auth().signOut();
-      // window.location.href = '/';
+
+    let redirect = false;
+    let a = false;
+
+    if (auth.uid) {
+      if (loadedUser.type === 'rta' || loadedUser.type === 'policeStation') {
+        redirect = true;
+        if (loadedUser.type === 'policeStation') {
+          a = true;
+        }
+      } else {
+        // eslint-disable-next-line react/destructuring-assignment,react/prop-types
+        this.props.firebase.auth().signOut();
+        redirect = false;
+      }
+    } else {
+      redirect = false;
     }
-    const a = false;
+
     return (
       <Dashboard history={history} changeMode={changeMode}>
         { redirect
@@ -53,9 +69,11 @@ class Application extends React.Component {
             a ? (
               <Switch>
                 <Route exact path="/app" component={BlankPage} />
-                <Route path="/app/dashboard" component={DashboardPage} />
-                <Route path="/app/form" component={Form} />
-                <Route path="/app/table" component={Table} />
+                { !ticketID ? <Route path="/app/HandleOpenTickets" component={HandleOpenTickets} /> : ticketStatus ? <Route path="/app/HandleOpenTickets" component={ConfirmCloseTicket} />
+                  : <Route path="/app/HandleOpenTickets" component={EnterPaymentDetails} />
+                }
+                <Route path="/app/ViewTickets" component={ViewTickets} />
+                <Route path="/app/EnterPaymentDetails" component={EnterPaymentDetails} />
                 <Route path="/app/page-list" component={Parent} />
                 <Route path="/app/pages/not-found" component={NotFound} />
                 <Route path="/app/pages/error" component={Error} />
@@ -63,12 +81,13 @@ class Application extends React.Component {
               </Switch>
             ) : (
               <Switch>
-                <Route exact path="/app" component={BlankPage} />
+                <Route exact path="/app" component={RegisterPoliceman} />
                 <Route path="/app/HandleComplaints" component={HandleComplaints} />
-                <Route path="/app/RegisterPolicemen" component={RegisterPoliceman} />
+                {!registeredPoliceMen ? <Route path="/app/RegisterPolicemen" component={RegisterPoliceman} /> : <Route path="/app/RegisterPolicemen" component={AssignPoliceStation} /> }
                 <Route path="/app/RegisterPoliceStation" component={RegisterPoliceStation} />
+                {!registered ? <Route path="/app/RegisterDrivers" component={RegisterDrivers} /> : <Route path="/app/RegisterDrivers" component={RegDriverSec} />}
                 <Route path="/app/RegisterDrivers" component={RegisterDrivers} />
-                <Route path="/app/RegisterVehicles" component={RegisterVehicles} />
+                {!registeredVehicle ? <Route path="/app/RegisterVehicles" component={RegisterVehicles} /> : <Route path="/app/RegisterVehicles" component={AddVehicleDetails} />}
                 <Route path="/app/PoliceMenProfileSta" component={PoliceMenProfileSta} />
                 <Route path="/app/PoliceStationProfile" component={PoliceStationProfile} />
                 <Route path="/app/Vehicle-Profile" component={VehicleProfiles} />
@@ -97,15 +116,32 @@ Application.propTypes = {
   users: PropTypes.array,
   // eslint-disable-next-line react/require-default-props
   auth: PropTypes.object,
-  // eslint-disable-next-line react/require-default-props,react/no-unused-prop-types
+  // eslint-disable-next-line react/require-default-props
+  registered: PropTypes.Boolean,
+  // eslint-disable-next-line react/require-default-props
+  registeredPoliceMen: PropTypes.Boolean,
+  // eslint-disable-next-line react/require-default-props
+  registeredVehicle: PropTypes.Boolean,
+  // eslint-disable-next-line react/require-default-props
+  ticketID: PropTypes.Boolean,
+  // eslint-disable-next-line react/require-default-props
+  ticketStatus: PropTypes.Boolean
 };
 
 const reducerFirestore = 'firestore';
-
+const RegReducer = 'regDriver';
+const policeMenReducer = 'regPoliceMen';
+const vehicleReducer = 'regVehicle';
+const tktReducer = 'openTktReducer';
 
 const mapStateToProps = (state) => ({
   auth: state.getIn(['firebase']).auth,
   users: state.get(reducerFirestore).ordered[COLLECTIONS.USER],
+  registered: state.getIn([RegReducer, 'registered']),
+  registeredPoliceMen: state.getIn([policeMenReducer, 'registered']),
+  registeredVehicle: state.getIn([vehicleReducer, 'registered']),
+  ticketID: state.getIn([tktReducer, 'idSet']),
+  ticketStatus: state.getIn([tktReducer, 'status']),
 });
 
 const AppInit = compose(

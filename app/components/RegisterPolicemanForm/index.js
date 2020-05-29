@@ -142,19 +142,6 @@ class Index extends React.Component {
               <div>
                 <FormControl className={classes.formControl}>
                   <Field
-                    name="stationId"
-                    component={TextFieldRedux}
-                    placeholder="Station ID"
-                    label="Station ID"
-                    required
-                    validate={[required]}
-                    className={classes.field}
-                  />
-                </FormControl>
-              </div>
-              <div>
-                <FormControl className={classes.formControl}>
-                  <Field
                     name="password"
                     component={TextFieldRedux}
                     type="password"

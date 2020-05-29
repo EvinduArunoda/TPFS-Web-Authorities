@@ -13,8 +13,12 @@ import login from './modules/login';
 import uiReducer from './modules/ui';
 import initval from './modules/initForm';
 import loginReducer from '../containers/Login/reducer';
-
-
+import regPoliceMen from '../containers/RegisterPoliceman/reducer';
+import regDriver from '../containers/RegisterDrivers/reducer';
+import regVehicle from '../containers/RegisterVehicles/reducer';
+import complaintReducer from '../containers/HandleComplaints/reducer';
+import openTktReducer from '../containers/HandleOpenTickets/reducer';
+import closeTicket from '../containers/ConfirmCloseTicket/reducer';
 /**
  * Creates the main reducer with the dynamically injected ones
  */
@@ -25,6 +29,12 @@ export default function createReducer(injectedReducers = {}) {
     ui: uiReducer,
     initval,
     loginReducer,
+    complaintReducer,
+    regPoliceMen,
+    regDriver,
+    regVehicle,
+    openTktReducer,
+    closeTicket,
     firebase: firebaseReducer,
     firestore: firestoreReducer,
     language: languageProviderReducer,

@@ -13,7 +13,7 @@ export function defaultAction() {
     type: types.DEFAULT_ACTION
   };
 }
-export function registerPoliceman(email, password, firstName, lastName, phonenumber, stationID, address, employeeID) {
+export function registerPoliceman(email, password, firstName, lastName, phonenumber, address, employeeID) {
   return {
     type: types.REGPOL,
     email,
@@ -21,8 +21,13 @@ export function registerPoliceman(email, password, firstName, lastName, phonenum
     firstName,
     lastName,
     phonenumber,
-    stationID,
     address,
     employeeID
+  };
+}
+
+export function registerSuccess() {
+  return {
+    type: types.REGSUCCESS
   };
 }

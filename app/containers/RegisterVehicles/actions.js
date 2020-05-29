@@ -13,14 +13,20 @@ export function defaultAction() {
     type: types.DEFAULT_ACTION
   };
 }
-export function registerVehicle(email, password, region, stationID, phonenumber, address) {
+export function registerVehicle(insuranceNumber, LicensePlate, makeAndModel, registeredNumber, registeredOwner, ownerID) {
   return {
-    type: types.REGPOLSTA,
-    email,
-    password,
-    region,
-    stationID,
-    phonenumber,
-    address
+    type: types.REG_VEHICLE,
+    insuranceNumber,
+    makeAndModel,
+    LicensePlate,
+    registeredNumber,
+    registeredOwner,
+    ownerID
+  };
+}
+
+export function registerSuccess() {
+  return {
+    type: types.REG_SUCCESS
   };
 }

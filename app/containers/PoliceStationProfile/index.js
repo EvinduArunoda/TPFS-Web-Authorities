@@ -19,7 +19,6 @@ import { compose } from 'redux';
 import { firestoreConnect, withFirebase } from 'react-redux-firebase';
 import Loading from 'dan-components/Loading';
 import { connect } from 'react-redux';
-import PaypalExpressBtn from 'react-paypal-express-checkout';
 import { COLLECTIONS } from '../../config/dbConstants';
 import styles from './profile-jss';
 // import firestore from '../../config/firebaseConfig';
@@ -60,41 +59,6 @@ function PoliceStationProfile(props) {
 
   const title = brand.name + ' - Police Station Profiles';
   const description = brand.desc;
-  const onSuccess = (payment) => {
-    // Congratulation, it came here means everything's fine!
-    console.log('The payment was succeeded!', payment);
-    // You can bind the "payment" object's value to your state or props or whatever here, please see below for sample returned data
-  };
-
-  const onCancel = (data) => {
-    // User pressed "cancel" or close Paypal's popup!
-    console.log('The payment was cancelled!', data);
-    // You can bind the "data" object's value to your state or props or whatever here, please see below for sample returned data
-  };
-
-  const onError = (err) => {
-    // The main Paypal's script cannot be loaded or somethings block the loading of that script!
-    console.log('Error!', err);
-    // Because the Paypal's main script is loaded asynchronously from "https://www.paypalobjects.com/api/checkout.js"
-    // => sometimes it may take about 0.5 second for everything to get set, or for the button to appear
-  };
-
-  const env = 'sandbox'; // you can set here to 'production' for production
-  const currency = 'USD'; // or you can set this value from your props or state
-  const total = 1; // same as above, this is the total amount (based on currency) to be paid by using Paypal express checkout
-  // Document on Paypal's currency code: https://developer.paypal.com/docs/classic/api/currency_codes/
-
-  const client = {
-    sandbox: 'AakDV9OoOkCKMKwS2BqNHU7KZm-iZq_Or56wxSg2kUXD19ruf3yYO9V80qtbmPrnTxVQQbNBwNsTkkPX',
-    production: 'YOUR-PRODUCTION-APP-ID',
-  };
-  // In order to get production's app-ID, you will have to send your app to Paypal for approval first
-  // For sandbox app-ID (after logging into your developer account, please locate the "REST API apps" section, click "Create App"):
-  //   => https://developer.paypal.com/docs/classic/lifecycle/sb_credentials/
-  // For production app-ID:
-  //   => https://developer.paypal.com/docs/classic/lifecycle/goingLive/
-
-  // NB. You can also have many Paypal express checkout buttons on page, just pass in the correct amount and they will work!
 
   return (
     <div>
@@ -117,6 +81,7 @@ function PoliceStationProfile(props) {
               {...params}
               label="Select Police Station"
               variant="outlined"
+              style={{ minWidth: 200 }}
             />
           )}
           onChange={handleStationChange}
@@ -150,7 +115,6 @@ function PoliceStationProfile(props) {
             <ListItemText primary="Address" secondary={address} />
           </ListItem>
         </List>
-        <PaypalExpressBtn env={env} client={client} currency={currency} total={total} onError={onError} onSuccess={onSuccess} onCancel={onCancel} />
       </PapperBlock>
     </div>
   );

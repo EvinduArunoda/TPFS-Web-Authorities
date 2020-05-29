@@ -3,7 +3,7 @@ module.exports = [
   {
     key: 'handleTickets',
     name: 'Handle Tickets',
-    link: '/app/Handle-Tickets',
+    link: '/app/HandleOpenTickets',
     icon: 'ios-navigate-outline',
   },
   {

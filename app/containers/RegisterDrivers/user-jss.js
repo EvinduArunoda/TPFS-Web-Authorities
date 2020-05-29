@@ -27,6 +27,12 @@ const styles = theme => ({
   root: {
     ...rootWraper
   },
+  rootAutoComp: {
+    width: 500,
+    '& > * + *': {
+      marginTop: theme.spacing(3),
+    },
+  },
   rootFull: {
     ...rootWraper,
     height: '100%',

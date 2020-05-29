@@ -5,10 +5,12 @@
  */
 
 import { fromJS } from 'immutable';
-import { DEFAULT_ACTION } from './constants';
-// import { REGDRIVER } from '../RegisterPoliceStation/constants';
+import { DEFAULT_ACTION, REGDRIVER, REGSUCCESS } from './constants';
 
-export const initialState = fromJS({});
+export const initialState = fromJS({
+  email: null,
+  registered: false
+});
 
 function registerDriversReducer(state = initialState, action) {
   switch (action.type) {
@@ -18,12 +20,15 @@ function registerDriversReducer(state = initialState, action) {
       return state;
 
 
-    // case REGDRIVER:
-    //   // eslint-disable-next-line no-unused-vars
-    //   return state.withMutations((mutableState) => {
-    //     // mutableState.setIn(['usersLogin', 'error'], 'Loading...');
-    //     // mutableState.setIn(['usersLogin', 'email'], action.email);
-    //   });
+    case REGDRIVER:
+      return state.withMutations((mutableState) => {
+        mutableState.setIn(['email'], action.email);
+      });
+
+    case REGSUCCESS:
+      return state.withMutations((mutableState) => {
+        mutableState.setIn(['registered'], true);
+      });
   }
 }
 

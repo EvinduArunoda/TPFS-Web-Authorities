@@ -4,7 +4,6 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import injectSaga from 'utils/injectSaga';
 import injectReducer from 'utils/injectReducer';
-import { createStructuredSelector } from 'reselect';
 import { bindActionCreators, compose } from 'redux';
 import { withStyles } from '@material-ui/core/styles';
 import brand from 'dan-api/dummy/brand';
@@ -13,7 +12,6 @@ import saga from './saga';
 import reducer from './reducer';
 import RegisterForm from '../../components/RegisterPoliceStationForm';
 import { registerPoliceStation } from './actions';
-import makeSelectRegisterPoliceman from './selectors';
 
 class Register extends React.Component {
   state = {}
@@ -21,7 +19,7 @@ class Register extends React.Component {
   // eslint-disable-next-line class-methods-use-this
   submitForm(values) {
     // eslint-disable-next-line react/destructuring-assignment
-    this.props.registerPoliceStation(values.get('email'), values.get('password'), values.get('region'), values.get('stationID'), values.get('phonenumber'), values.get('address'));
+    this.props.registerPoliceStation(values.get('email'), values.get('password'), values.get('region'), values.get('stationID'), values.get('phonenumber'), values.get('address'), this.props.auth.email);
     console.log(`You submitted:\n\n${values.get('email')}`); // eslint-disable-line
   }
 
@@ -52,9 +50,11 @@ class Register extends React.Component {
 Register.propTypes = {
   classes: PropTypes.object.isRequired,
   registerPoliceStation: PropTypes.func.isRequired,
+  // eslint-disable-next-line react/require-default-props
+  auth: PropTypes.object
 };
-const mapStateToProps = createStructuredSelector({
-  login: makeSelectRegisterPoliceman()
+const mapStateToProps = (state) => ({
+  auth: state.getIn(['firebase']).auth,
 });
 const mapDispatchToProps = (dispatch) => ({
   registerPoliceStation: bindActionCreators(registerPoliceStation, dispatch),

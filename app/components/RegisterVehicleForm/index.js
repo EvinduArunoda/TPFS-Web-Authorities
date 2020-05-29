@@ -16,18 +16,6 @@ import styles from './user-jss';
 
 // validation functions
 const required = value => (value == null ? 'Required' : undefined);
-const email = value => (
-  value && !/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(value)
-    ? 'Invalid email'
-    : undefined
-);
-
-const passwordsMatch = (value, allValues) => {
-  if (value !== allValues.get('password')) {
-    return 'Passwords dont match';
-  }
-  return undefined;
-};
 
 const LinkBtn = React.forwardRef(function LinkBtn(props, ref) { // eslint-disable-line
   return <NavLink to={props.to} {...props} innerRef={ref} />; // eslint-disable-line
@@ -68,59 +56,10 @@ class Index extends React.Component {
               <div>
                 <FormControl className={classes.formControl}>
                   <Field
-                    name="licenseNumber"
+                    name="LicensePlate"
                     component={TextFieldRedux}
-                    placeholder="License Number"
-                    label="License Number"
-                    required
-                    className={classes.field}
-                  />
-                </FormControl>
-              </div>
-              <div>
-                <FormControl className={classes.formControl}>
-                  <Field
-                    name="name"
-                    component={TextFieldRedux}
-                    placeholder="Full Name"
-                    label="Full Name"
-                    required
-                    className={classes.field}
-                  />
-                </FormControl>
-              </div>
-              <div>
-                <FormControl className={classes.formControl}>
-                  <Field
-                    name="address"
-                    component={TextFieldRedux}
-                    placeholder="Address"
-                    label="address"
-                    required
-                    className={classes.field}
-                  />
-                </FormControl>
-              </div>
-              <div>
-                <FormControl className={classes.formControl}>
-                  <Field
-                    name="email"
-                    component={TextFieldRedux}
-                    placeholder="Email"
-                    label="Email"
-                    required
-                    validate={[required, email]}
-                    className={classes.field}
-                  />
-                </FormControl>
-              </div>
-              <div>
-                <FormControl className={classes.formControl}>
-                  <Field
-                    name="phonenumber"
-                    component={TextFieldRedux}
-                    placeholder="Contact Number"
-                    label="Contact Number"
+                    placeholder="License Plate Number"
+                    label="License Plate Number"
                     required
                     validate={[required]}
                     className={classes.field}
@@ -130,12 +69,12 @@ class Index extends React.Component {
               <div>
                 <FormControl className={classes.formControl}>
                   <Field
-                    name="password"
+                    name="insuranceNumber"
                     component={TextFieldRedux}
-                    type="password"
-                    label="Initial Password"
+                    placeholder="Insurance Number"
+                    label="Insurance Number"
                     required
-                    validate={[required, passwordsMatch]}
+                    validate={[required]}
                     className={classes.field}
                   />
                 </FormControl>
@@ -143,12 +82,50 @@ class Index extends React.Component {
               <div>
                 <FormControl className={classes.formControl}>
                   <Field
-                    name="passwordConfirm"
+                    name="makeAndModel"
                     component={TextFieldRedux}
-                    type="password"
-                    label="Re-type Password"
+                    placeholder="Make And Model"
+                    label="Make And Model"
                     required
-                    validate={[required, passwordsMatch]}
+                    className={classes.field}
+                  />
+                </FormControl>
+              </div>
+              <div>
+                <FormControl className={classes.formControl}>
+                  <Field
+                    name="registeredNumber"
+                    component={TextFieldRedux}
+                    placeholder="Registered Number"
+                    label="Registered Number"
+                    required
+                    validate={[required]}
+                    className={classes.field}
+                  />
+                </FormControl>
+              </div>
+              <div>
+                <FormControl className={classes.formControl}>
+                  <Field
+                    name="registeredOwner"
+                    component={TextFieldRedux}
+                    placeholder="Registered Owner"
+                    label="Registered Owner"
+                    required
+                    validate={[required]}
+                    className={classes.field}
+                  />
+                </FormControl>
+              </div>
+              <div>
+                <FormControl className={classes.formControl}>
+                  <Field
+                    name="ownerID"
+                    component={TextFieldRedux}
+                    placeholder="Owner NIC"
+                    label="Owner NIC"
+                    required
+                    validate={[required]}
                     className={classes.field}
                   />
                 </FormControl>

@@ -5,9 +5,12 @@
  */
 
 import { fromJS } from 'immutable';
-import { DEFAULT_ACTION } from './constants';
+import { DEFAULT_ACTION, SET_ID, FLIP_RDRCT } from './constants';
 
-export const initialState = fromJS({});
+export const initialState = fromJS({
+  id: null,
+  redirect: false
+});
 
 function handleComplaintsReducer(state = initialState, action) {
   switch (action.type) {
@@ -15,6 +18,15 @@ function handleComplaintsReducer(state = initialState, action) {
       return state;
     default:
       return state;
+    case SET_ID:
+      return state.withMutations((mutableState) => {
+        mutableState.setIn(['id'], action.id);
+        mutableState.setIn(['redirect'], true);
+      });
+    case FLIP_RDRCT:
+      return state.withMutations((mutableState) => {
+        mutableState.setIn(['redirect'], true);
+      });
   }
 }
 

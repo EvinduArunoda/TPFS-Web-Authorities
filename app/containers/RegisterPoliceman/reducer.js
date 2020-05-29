@@ -5,9 +5,12 @@
  */
 
 import { fromJS } from 'immutable';
-import { DEFAULT_ACTION, REGPOL } from './constants';
+import { DEFAULT_ACTION, REGPOL, REGSUCCESS } from './constants';
 
-export const initialState = fromJS({});
+export const initialState = fromJS({
+  email: null,
+  registered: false
+});
 
 function registerPolicemanReducer(state = initialState, action) {
   switch (action.type) {
@@ -17,10 +20,13 @@ function registerPolicemanReducer(state = initialState, action) {
       return state;
 
     case REGPOL:
-      // eslint-disable-next-line no-unused-vars
       return state.withMutations((mutableState) => {
-        // mutableState.setIn(['usersLogin', 'error'], 'Loading...');
-        // mutableState.setIn(['usersLogin', 'email'], action.email);
+        mutableState.setIn(['email'], action.email);
+      });
+
+    case REGSUCCESS:
+      return state.withMutations((mutableState) => {
+        mutableState.setIn(['registered'], true);
       });
   }
 }

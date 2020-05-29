@@ -101,3 +101,31 @@ export const FeedBack = Loadable({
   loader: () => import('./GiveFeedBack'),
   loading: Loading,
 });
+export const RegDriverSec = Loadable({
+  loader: () => import('./RegDriverSecondary'),
+  loading: Loading,
+});
+export const AssignPoliceStation = Loadable({
+  loader: () => import('./AssignPoliceStation'),
+  loading: Loading,
+});
+export const AddVehicleDetails = Loadable({
+  loader: () => import('./AddVehicleDetails'),
+  loading: Loading,
+});
+export const HandleOpenTickets = Loadable({
+  loader: () => import('./HandleOpenTickets'),
+  loading: Loading,
+});
+export const ViewTickets = Loadable({
+  loader: () => import('./ViewTickets'),
+  loading: Loading,
+});
+export const EnterPaymentDetails = Loadable({
+  loader: () => import('./SubmitPaymentDetails'),
+  loading: Loading,
+});
+export const ConfirmCloseTicket = Loadable({
+  loader: () => import('./ConfirmCloseTicket'),
+  loading: Loading,
+});

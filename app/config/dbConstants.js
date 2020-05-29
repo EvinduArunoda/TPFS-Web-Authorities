@@ -6,6 +6,8 @@ export const COLLECTIONS = {
   POLICEMAN: 'PoliceMen',
   DRIVER: 'Drivers',
   COMPLAINT: 'Complaint',
-  VEHICLE: 'vehicle'
+  VEHICLE: 'vehicle',
+  FEEDBACK: 'FeedBacks',
+  TICKET: 'Ticket'
 
 };

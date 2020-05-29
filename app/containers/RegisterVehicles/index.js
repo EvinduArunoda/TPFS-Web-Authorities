@@ -21,8 +21,8 @@ class Register extends React.Component {
   // eslint-disable-next-line class-methods-use-this
   submitForm(values) {
     // eslint-disable-next-line react/destructuring-assignment
-    this.props.registerVehicle(values.get('email'), values.get('password'), values.get('region'), values.get('stationID'), values.get('phonenumber'), values.get('address'));
-    console.log(`You submitted:\n\n${values.get('email')}`); // eslint-disable-line
+    this.props.registerVehicle(values.get('insuranceNumber'), values.get('LicensePlate'), values.get('makeAndModel'), values.get('registeredNumber'), values.get('registeredOwner'), values.get('ownerID'));
+    console.log(`You submitted:\n\n${values}`); // eslint-disable-line
   }
 
   render() {

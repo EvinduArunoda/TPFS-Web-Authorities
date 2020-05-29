@@ -1,36 +1,43 @@
 import {
-  all, fork, call, takeEvery // select, take, put were removed
+  all, fork, call, takeEvery, put // select, take, put were removed
 } from 'redux-saga/effects';
 import * as types from './constants';
-// import { logInSuccess, logInError } from './actions';
-import { COLLECTIONS } from '../../config/dbConstants';
-import { firestore } from '../../config/firebaseConfig';
+import firebase from '../../config/firebaseConfig';
+import 'firebase/functions';
+import { registerSuccess } from './actions';
 
-
-const registerwithmail = async (email, password, region, stationID, phonenumber, address) => {
-  // const authUser = await firebase
-  //   .auth()
-  //   .createUserWithEmailAndPassword(email, password);
-  // if (authUser.user == null) {
-  //   const err = { message: 'Login Failed' };
-  //   throw err;
-  // } else {
-  await firestore.collection(COLLECTIONS.USER).doc().set({
-    address,
-    region,
-    email,
-    phone_number: phonenumber,
-    station_id: stationID,
-    type: 'policeStation'
-  });
-  // }
+const registerwithmail = async (email, password, region, stationID, phonenumber, address, rta) => {
+  const AddPoliceStation = await firebase.functions().httpsCallable('AddPoliceStation');
+  return (
+    AddPoliceStation({
+      address,
+      region,
+      email,
+      phone_number: phonenumber,
+      mail_id: email,
+      station_id: stationID,
+      password,
+      rta
+    }).then(result => result.data)
+      .catch(error => ({
+        status: 'FAILED',
+        error: error.message
+      }))
+  );
 };
 
 export function* Register(action) {
   try {
-    yield call(registerwithmail, action.email, action.password, action.region, action.stationID, action.phonenumber, action.address);
-    // yield put(logInSuccess());
-    window.location.href = '/app/RegisterPoliceStation';
+    const result = yield call(registerwithmail, action.email, action.password, action.region, action.stationID, action.phonenumber, action.address, action.rta);
+    if (result.status === 'success') {
+      alert('Success!!');
+      window.location.href = '/app/RegisterPoliceStation';
+      console.log('success');
+      yield put(registerSuccess());
+    } else {
+      alert('FAILED!! ' + result.message);
+      window.location.href = '/app/RegisterPoliceStation';
+    }
   } catch (e) {
     // yield put(logInError(e));
   }

@@ -19,21 +19,28 @@ import { compose } from 'redux';
 import { firestoreConnect, withFirebase } from 'react-redux-firebase';
 import Loading from 'dan-components/Loading';
 import { connect } from 'react-redux';
+import FormControl from '@material-ui/core/FormControl';
 import { COLLECTIONS } from '../../config/dbConstants';
 import styles from './profile-jss';
 // import firestore from '../../config/firebaseConfig';
 
 function PoliceMenProfileSta(props) {
-  let policeStation = 'Default';
-  let policeMan = 'Default';
+  // const policeStation = 'Default';
+  // const policeMan = 'Default';
   const {
     classes, auth, policeMen, webUsers
   } = props;
   if (!auth || !policeMen || !webUsers) {
     return (<Loading />);
   }
-
-  // console.log(policeMen);
+  // PoliceMan
+  const [name, setName] = React.useState(' ');
+  const [email, setEmail] = React.useState(' ');
+  const [employeeID, setEmployeeID] = React.useState(' ');
+  const [Address, setAddress] = React.useState(' ');
+  const [phone, setPhone] = React.useState(' ');
+  const [Station, setStation] = React.useState(null);
+  const [PoliceMen, setPoliceMen] = React.useState([]);
 
   const loadedRTA = webUsers.filter(user => user.email === auth.email)[0];
   const AllpoliceStatuions = webUsers.filter(user => user.type === 'policeStation');
@@ -41,44 +48,21 @@ function PoliceMenProfileSta(props) {
 
   const policeStationlist = RTApoliceStations.map(station => ({ Station: station.station_id }));
 
-  const getPoliceMen = (PoliceStation) => {
-    if (PoliceStation === 'Default') {
-      return ([]);
-    }
-    return (policeMen.filter(user => user.station_id === PoliceStation));
-  };
-
-  const PoliceMen = getPoliceMen(policeStation).map(user => ({ employeeID: user.employee_id }));
+  const getPoliceMen = (PoliceStation) => (policeMen.filter(user => user.station_id === PoliceStation));
 
   const handleStationChange = (event, value) => {
-    policeStation = value;
-    console.log(getPoliceMen(policeStation));
+    setStation(value);
+    setPoliceMen(getPoliceMen(Station.Station));
+    setPoliceMen(getPoliceMen(Station.Station));
   };
 
   const handlePoliceManChange = (event, value) => {
-    policeMan = value;
+    setName((value.first_name + ' ' + value.last_name));
+    setEmail(value.mail_id);
+    setEmployeeID(value.employee_id);
+    setAddress(value.address);
+    setPhone(value.phone_number);
   };
-
-  // if (policeStation !== 'Default') {
-  // eslint-disable-next-line no-unused-vars
-  const selectedPoliceMen = policeMen.filter(user => user.station_id === policeStation);
-
-  // }
-
-
-  // PoliceMan
-  let name = 'Not Selected';
-  let employeeID = 'Not Selected';
-  let email = 'Not Selected';
-  let Address = 'Not Selected';
-  let phone = 'Not Selected';
-  // eslint-disable-next-line prefer-destructuring
-  policeMan = policeMen[0];
-  name = policeMan.first_name + ' ' + policeMan.last_name;
-  employeeID = policeMan.employee_id;
-  email = policeMan.mail_id;
-  Address = policeMan.address;
-  phone = policeMan.phone_number;
 
 
   const title = brand.name + ' - PoliceMen Profiles';
@@ -94,34 +78,40 @@ function PoliceMenProfileSta(props) {
         <meta property="twitter:description" content={description} />
       </Helmet>
       <PapperBlock title="Select PoliceMen" desc="Select the policeStation and the policeman">
-        <Autocomplete
-          id="combo-box-policeStation"
-          options={policeStationlist}
-          getOptionLabel={(option) => option.Station}
-          className={classes.combo}
-          renderInput={(params) => (
-            <TextField
-              {...params}
-              label="Select Police Station"
-              variant="outlined"
-            />
-          )}
-          onChange={handleStationChange}
-        />
-        <Autocomplete
-          id="combo-box-policemen"
-          options={PoliceMen}
-          getOptionLabel={(option) => option.employeeID}
-          className={classes.combo}
-          renderInput={(params) => (
-            <TextField
-              {...params}
-              label="Select PoliceMen"
-              variant="outlined"
-            />
-          )}
-          onChange={handlePoliceManChange}
-        />
+        <FormControl variant="outlined" className={classes.formControl}>
+          <Autocomplete
+            id="combo-box-policeStation"
+            options={policeStationlist}
+            getOptionLabel={(option) => option.Station}
+            className={classes.combo}
+            renderInput={(params) => (
+              <TextField
+                {...params}
+                label="Select Police Station"
+                variant="outlined"
+                style={{ minWidth: 200 }}
+              />
+            )}
+            onChange={handleStationChange}
+          />
+        </FormControl>
+        <FormControl variant="outlined" className={classes.formControl}>
+          <Autocomplete
+            id="combo-box-policemen"
+            options={PoliceMen}
+            getOptionLabel={(option) => option.employee_id}
+            className={classes.combo}
+            renderInput={(params) => (
+              <TextField
+                {...params}
+                label="Select PoliceMen"
+                variant="outlined"
+                style={{ minWidth: 200 }}
+              />
+            )}
+            onChange={handlePoliceManChange}
+          />
+        </FormControl>
       </PapperBlock>
       <PapperBlock title={name} icon="ios-contact-outline" whiteBg noMargin desc={employeeID}>
         <Divider className={classes.divider} />

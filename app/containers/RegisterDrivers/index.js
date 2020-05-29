@@ -4,16 +4,15 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import injectSaga from 'utils/injectSaga';
 import injectReducer from 'utils/injectReducer';
-import { createStructuredSelector } from 'reselect';
 import { bindActionCreators, compose } from 'redux';
 import { withStyles } from '@material-ui/core/styles';
 import brand from 'dan-api/dummy/brand';
+import { Redirect } from 'react-router-dom';
 import styles from './user-jss';
 import saga from './saga';
 import reducer from './reducer';
 import RegisterForm from '../../components/RegisterDriverForm';
 import { registerDrivers } from './actions';
-import makeSelectRegisterDrivers from './selectors';
 
 class Register extends React.Component {
   state = {}
@@ -22,14 +21,17 @@ class Register extends React.Component {
   submitForm(values) {
     console.log(values);
     // eslint-disable-next-line react/destructuring-assignment
-    this.props.registerDriver(values.get('email'), values.get('password'), values.get('name'), values.get('address'), values.get('phonenumber'), values.get('licenseNumber'));
+    this.props.registerDriver(values.get('email'), values.get('password'), values.get('name'), values.get('address'), values.get('phonenumber'), values.get('licenseNumber'), values.get('nic'), this.props.auth.email);
     console.log(`You submitted:\n\n${values.get('name')}`); // eslint-disable-line
   }
 
   render() {
     const title = brand.name + ' - Register';
     const description = brand.desc;
-    const { classes } = this.props;
+    const { classes, registered } = this.props;
+    if (registered) {
+      <Redirect to="/app/RegDriverSec" />;
+    }
     return (
       <div className={classes.root}>
         <Helmet>
@@ -52,10 +54,17 @@ class Register extends React.Component {
 
 Register.propTypes = {
   classes: PropTypes.object.isRequired,
+  // eslint-disable-next-line react/require-default-props
+  auth: PropTypes.object,
   registerDriver: PropTypes.func.isRequired,
+  // eslint-disable-next-line react/require-default-props
+  registered: PropTypes.Boolean
 };
-const mapStateToProps = createStructuredSelector({
-  makeSelectRegisterDrivers: makeSelectRegisterDrivers()
+const RegReducer = 'regDriver';
+
+const mapStateToProps = (state) => ({
+  registered: state.getIn([RegReducer, 'registered']),
+  auth: state.getIn(['firebase']).auth,
 });
 const mapDispatchToProps = (dispatch) => ({
   registerDriver: bindActionCreators(registerDrivers, dispatch),
@@ -65,7 +74,7 @@ const withConnect = connect(
   mapDispatchToProps
 );
 const withReducer = injectReducer({ key: 'registerDrivers', reducer });
-const withSaga = injectSaga({ key: 'registerDrivers', saga });
+const withSaga = injectSaga({ key: 'register Drivers', saga });
 
 export default compose(
   withReducer,

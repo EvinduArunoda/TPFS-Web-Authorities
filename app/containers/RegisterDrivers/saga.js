@@ -1,38 +1,45 @@
 import {
-  all, fork, call, takeEvery // select, take were removed
+  all, fork, call, takeEvery, put // select, take were removed
 } from 'redux-saga/effects';
 import * as types from './constants';
-// import { logInSuccess, logInError } from './actions';
-import { COLLECTIONS } from '../../config/dbConstants';
-import { firestore } from '../../config/firebaseConfig';
+import { registerSuccess } from './actions';
+import 'firebase/functions';
+import firebase from '../../config/firebaseConfig';
 
 
-const registerwithmail = async (email, password, name, address, phonenumber, licenseNumber) => {
-  // const authUser = await firebase
-  //   .auth()
-  //   .createUserWithEmailAndPassword(email, password);
-  // if (authUser.user == null) {
-  //   const err = { message: 'Login Failed' };
-  //   throw err;
-  // } else {
-  await firestore.collection(COLLECTIONS.DRIVER).doc().set({
-    LicenseNumber: licenseNumber,
-    PhoneNumber: phonenumber,
-    address,
-    emailAddress: email,
-    name,
-    physicalDisabilities: []
-  });
-  // }
+const registerwithmail = async (email, password, name, address, phonenumber, licenseNumber, nic) => {
+  const AddDriver = await firebase.functions().httpsCallable('AddDriver');
+  return (
+    AddDriver({
+      LicenseNumber: licenseNumber,
+      PhoneNumber: phonenumber,
+      address,
+      emailAddress: email,
+      name,
+      NIC: nic,
+      password
+    }).then(result => result.data)
+      .catch(error => ({
+        status: 'FAILED',
+        error: error.message
+      }))
+  );
 };
 
 export function* Register(action) {
   try {
-    yield call(registerwithmail, action.email, action.password, action.name, action.address, action.phonenumber, action.licenseNumber);
-    // yield put(logInSuccess());
-    window.location.href = '/app/RegisterPoliceStation';
+    const result = yield call(registerwithmail, action.email, action.password, action.name, action.address, action.phonenumber, action.licenseNumber, action.nic);
+    if (result.status === 'success') {
+      alert('Success!!');
+      console.log('success');
+      yield put(registerSuccess());
+    } else {
+      alert('FAILED!! ' + result.message);
+      window.location.href = '/app/RegisterDrivers';
+    }
   } catch (e) {
-    // yield put(logInError(e));
+    alert('FAILED!! ');
+    window.location.href = '/app/RegisterDrivers';
   }
 }
 

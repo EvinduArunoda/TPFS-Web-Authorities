@@ -10,8 +10,6 @@ import FormControl from '@material-ui/core/FormControl';
 import Paper from '@material-ui/core/Paper';
 import Typography from '@material-ui/core/Typography';
 import ArrowForward from '@material-ui/icons/ArrowForward';
-import Autocomplete from '@material-ui/lab/Autocomplete';
-import TextField from '@material-ui/core/TextField';
 import { TextFieldRedux } from './ReduxFormMUI';
 import styles from './user-jss';
 
@@ -50,13 +48,11 @@ class Index extends React.Component {
   render() {
     const {
       classes,
-      handleSubmit,
       pristine,
       submitting,
-      deco
+      deco,
+      handleSubmit
     } = this.props;
-    const top100Films = [{ title: 'The Shawshank Redemption', year: 1994 },
-      { title: 'The Godfather', year: 1972 }];
     return (
       <Fragment>
 
@@ -67,7 +63,7 @@ class Index extends React.Component {
           </Typography>
 
           <section className={classes.formWrap}>
-            <form>
+            <form onSubmit={handleSubmit}>
               <div>
                 <FormControl className={classes.formControl}>
                   <Field
@@ -130,33 +126,19 @@ class Index extends React.Component {
                   />
                 </FormControl>
               </div>
-              <form onSubmit={handleSubmit}>
-                <div className={classes.rootAutoComp}>
-                  <FormControl className={classes.formControl}>
-
-                    <Autocomplete
-                      name="movies"
-                      multiple
-                      id="tags-outlined"
-                      options={top100Films}
-                      getOptionLabel={(option) => option.title}
-                      defaultValue={[top100Films[0]]}
-                      filterSelectedOptions
-                      renderInput={(params) => (
-                        <TextField
-                          name="movies"
-                          {...params}
-                          value={params}
-                          variant="outlined"
-                          label="filterSelectedOptions"
-                          placeholder="Favorites"
-                        />
-                      )}
-                    />
-                  </FormControl>
-                </div>
-              </form>
-
+              <div>
+                <FormControl className={classes.formControl}>
+                  <Field
+                    name="nic"
+                    component={TextFieldRedux}
+                    placeholder="NIC"
+                    label="NIC"
+                    required
+                    validate={[required]}
+                    className={classes.field}
+                  />
+                </FormControl>
+              </div>
               <div>
                 <FormControl className={classes.formControl}>
                   <Field
@@ -200,6 +182,7 @@ class Index extends React.Component {
 
 Index.propTypes = {
   classes: PropTypes.object.isRequired,
+  // eslint-disable-next-line react/no-unused-prop-types
   handleSubmit: PropTypes.func.isRequired,
   pristine: PropTypes.bool.isRequired,
   submitting: PropTypes.bool.isRequired,
