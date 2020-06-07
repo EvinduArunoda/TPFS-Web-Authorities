@@ -7,7 +7,7 @@ import 'firebase/functions';
 import firebase from '../../config/firebaseConfig';
 
 
-const registerwithmail = async (email, password, name, address, phonenumber, licenseNumber, nic) => {
+const registerwithmail = async (email, name, address, phonenumber, licenseNumber, nic) => {
   const AddDriver = await firebase.functions().httpsCallable('AddDriver');
   return (
     AddDriver({
@@ -16,8 +16,7 @@ const registerwithmail = async (email, password, name, address, phonenumber, lic
       address,
       emailAddress: email,
       name,
-      NIC: nic,
-      password
+      NIC: nic
     }).then(result => result.data)
       .catch(error => ({
         status: 'FAILED',
@@ -28,7 +27,7 @@ const registerwithmail = async (email, password, name, address, phonenumber, lic
 
 export function* Register(action) {
   try {
-    const result = yield call(registerwithmail, action.email, action.password, action.name, action.address, action.phonenumber, action.licenseNumber, action.nic);
+    const result = yield call(registerwithmail, action.email, action.name, action.address, action.phonenumber, action.licenseNumber, action.nic);
     if (result.status === 'success') {
       alert('Success!!');
       console.log('success');

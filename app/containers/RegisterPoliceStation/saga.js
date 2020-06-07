@@ -6,7 +6,7 @@ import firebase from '../../config/firebaseConfig';
 import 'firebase/functions';
 import { registerSuccess } from './actions';
 
-const registerwithmail = async (email, password, region, stationID, phonenumber, address, rta) => {
+const registerwithmail = async (email, region, stationID, phonenumber, address, rta) => {
   const AddPoliceStation = await firebase.functions().httpsCallable('AddPoliceStation');
   return (
     AddPoliceStation({
@@ -16,7 +16,6 @@ const registerwithmail = async (email, password, region, stationID, phonenumber,
       phone_number: phonenumber,
       mail_id: email,
       station_id: stationID,
-      password,
       rta
     }).then(result => result.data)
       .catch(error => ({
@@ -28,7 +27,7 @@ const registerwithmail = async (email, password, region, stationID, phonenumber,
 
 export function* Register(action) {
   try {
-    const result = yield call(registerwithmail, action.email, action.password, action.region, action.stationID, action.phonenumber, action.address, action.rta);
+    const result = yield call(registerwithmail, action.email, action.region, action.stationID, action.phonenumber, action.address, action.rta);
     if (result.status === 'success') {
       alert('Success!!');
       window.location.href = '/app/RegisterPoliceStation';

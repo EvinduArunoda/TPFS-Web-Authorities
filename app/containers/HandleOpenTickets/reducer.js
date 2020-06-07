@@ -6,7 +6,7 @@
 
 import { fromJS } from 'immutable';
 import {
-  DEFAULT_ACTION, SET_ID, BACK, CLOSE_TKT
+  DEFAULT_ACTION, SET_ID, BACK, CLOSE_TKT, RESET
 } from './constants';
 
 export const initialState = fromJS({
@@ -41,6 +41,13 @@ function handleOpenTicketsReducer(state = initialState, action) {
         mutableState.setIn(['id'], action.id);
         mutableState.setIn(['status'], true);
         mutableState.setIn(['idSet'], true);
+      });
+
+    case RESET:
+      return state.withMutations((mutableState) => {
+        mutableState.setIn(['id'], null);
+        mutableState.setIn(['status'], false);
+        mutableState.setIn(['idSet'], false);
       });
   }
 }

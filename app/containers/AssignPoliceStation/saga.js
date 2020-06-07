@@ -27,7 +27,7 @@ export function* Submit(action) {
       console.log('success');
       window.location.href = '/app/RegisterPolicemen';
     } else {
-      alert('FAILED!! ' + result.message);
+      alert('FAILED!! Here' + result.message);
       window.location.href = '/app/RegisterPolicemen';
     }
     window.location.href = '/app/RegisterPolicemen';

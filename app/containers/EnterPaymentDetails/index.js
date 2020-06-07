@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import Loading from 'dan-components/Loading';
+import { bindActionCreators, compose } from 'redux';
 import { withStyles } from '@material-ui/core/styles';
 import Paper from '@material-ui/core/Paper';
 import { Field, reduxForm } from 'redux-form/immutable';
@@ -10,6 +12,7 @@ import {
   TextFieldRedux,
 } from 'dan-components/Forms/ReduxFormMUI';
 import FormControl from '@material-ui/core/FormControl';
+import { back } from '../HandleOpenTickets/actions';
 
 // validation functions
 const required = value => (value == null ? 'Required' : undefined);
@@ -48,7 +51,15 @@ class EnterPayementDetails extends Component {
       classes,
       handleSubmit,
       submitting,
+      Back,
+      loading
     } = this.props;
+    if (loading) {
+      return (<Loading />);
+    }
+    const handleBack = () => {
+      Back();
+    };
 
     return (
       <div>
@@ -76,6 +87,14 @@ class EnterPayementDetails extends Component {
                 </div>
               </form>
             </Paper>
+            <div>
+            To cancel the process :
+            </div>
+            <div>
+              <Button variant="contained" color="secondary" type="submit" onClick={handleBack}>
+                Go Back
+              </Button>
+            </div>
           </Grid>
         </Grid>
       </div>
@@ -88,8 +107,23 @@ EnterPayementDetails.propTypes = {
   classes: PropTypes.object.isRequired,
   handleSubmit: PropTypes.func.isRequired,
   submitting: PropTypes.bool.isRequired,
+  // eslint-disable-next-line react/require-default-props
+  Back: PropTypes.func,
+  // eslint-disable-next-line react/require-default-props
+  loading: PropTypes.boolean,
 };
+const submitPaymentReducer = 'submitPayment';
 
+const mapStateToProps = (state) => ({
+  loading: state.getIn([submitPaymentReducer, 'loading']),
+});
+const mapDispatchToProps = (dispatch) => ({
+  Back: bindActionCreators(back, dispatch),
+});
+const withConnect = connect(
+  mapStateToProps,
+  mapDispatchToProps
+);
 const ReduxFormMapped = reduxForm({
   form: 'immutableExample',
   enableReinitialize: true,
@@ -103,4 +137,6 @@ const FormInit = connect(
   }),
 )(ReduxFormMapped);
 
-export default withStyles(styles)(FormInit);
+export default compose(
+  withConnect
+)(withStyles(styles)(FormInit));

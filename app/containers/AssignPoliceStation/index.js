@@ -85,7 +85,7 @@ function AssignPoliceStation(props) {
   };
 
   const handleSubmit = () => {
-    SubmitData(email, station);
+    SubmitData(email, station.station_id);
   };
 
   return (

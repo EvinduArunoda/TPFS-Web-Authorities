@@ -6,6 +6,7 @@ import 'firebase/functions';
 import firebase, { firestore } from '../../config/firebaseConfig';
 import { COLLECTIONS } from '../../config/dbConstants';
 import { closeSuccess } from './actions';
+import { reset } from '../HandleOpenTickets/actions';
 
 const closeTicket = async (id) => {
   const Ticket = firestore.collection(COLLECTIONS.TICKET).doc(id);
@@ -21,7 +22,7 @@ export function* Submit(action) {
   try {
     yield call(closeTicket, action.id);
     yield put(closeSuccess());
-    window.location.href = '/app/HandleOpenTickets';
+    yield put(reset());
   } catch (e) {
     alert('FAILED!! ');
     window.location.href = '/app/HandleOpenTickets';

@@ -21,7 +21,7 @@ class Register extends React.Component {
   submitForm(values) {
     console.log(values);
     // eslint-disable-next-line react/destructuring-assignment
-    this.props.registerDriver(values.get('email'), values.get('password'), values.get('name'), values.get('address'), values.get('phonenumber'), values.get('licenseNumber'), values.get('nic'), this.props.auth.email);
+    this.props.registerDriver(values.get('email'), values.get('name'), values.get('address'), values.get('phonenumber'), values.get('licenseNumber'), values.get('nic'), this.props.auth.email);
     console.log(`You submitted:\n\n${values.get('name')}`); // eslint-disable-line
   }
 

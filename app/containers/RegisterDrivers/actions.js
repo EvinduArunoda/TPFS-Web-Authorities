@@ -13,12 +13,11 @@ export function defaultAction() {
     type: types.DEFAULT_ACTION
   };
 }
-export function registerDrivers(email, password, name, address, phonenumber, licenseNumber, nic, rta) {
+export function registerDrivers(email, name, address, phonenumber, licenseNumber, nic, rta) {
   console.log(rta);
   return {
     type: types.REGDRIVER,
     email,
-    password,
     phonenumber,
     address,
     licenseNumber,

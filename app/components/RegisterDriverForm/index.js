@@ -21,13 +21,6 @@ const email = value => (
     : undefined
 );
 
-const passwordsMatch = (value, allValues) => {
-  if (value !== allValues.get('password')) {
-    return 'Passwords dont match';
-  }
-  return undefined;
-};
-
 const LinkBtn = React.forwardRef(function LinkBtn(props, ref) { // eslint-disable-line
   return <NavLink to={props.to} {...props} innerRef={ref} />; // eslint-disable-line
 });
@@ -135,32 +128,6 @@ class Index extends React.Component {
                     label="NIC"
                     required
                     validate={[required]}
-                    className={classes.field}
-                  />
-                </FormControl>
-              </div>
-              <div>
-                <FormControl className={classes.formControl}>
-                  <Field
-                    name="password"
-                    component={TextFieldRedux}
-                    type="password"
-                    label="Initial Password"
-                    required
-                    validate={[required, passwordsMatch]}
-                    className={classes.field}
-                  />
-                </FormControl>
-              </div>
-              <div>
-                <FormControl className={classes.formControl}>
-                  <Field
-                    name="passwordConfirm"
-                    component={TextFieldRedux}
-                    type="password"
-                    label="Re-type Password"
-                    required
-                    validate={[required, passwordsMatch]}
                     className={classes.field}
                   />
                 </FormControl>

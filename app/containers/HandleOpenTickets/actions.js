@@ -5,7 +5,7 @@
  */
 
 import {
-  DEFAULT_ACTION, SET_ID, CLOSE_TKT, BACK
+  DEFAULT_ACTION, SET_ID, CLOSE_TKT, BACK, RESET
 } from './constants';
 
 // eslint-disable-next-line import/prefer-default-export
@@ -29,5 +29,10 @@ export function closeTicket(id) {
 export function back() {
   return {
     type: BACK
+  };
+}
+export function reset() {
+  return {
+    type: RESET
   };
 }

@@ -9,7 +9,7 @@ import firebase from '../../config/firebaseConfig';
 import 'firebase/functions';
 
 
-const registerwithmail = async (email, password, firstName, lastName, phonenumber, address, employeeID) => {
+const registerwithmail = async (email, firstName, lastName, phonenumber, address, employeeID) => {
   const AddPoliceMen = await firebase.functions().httpsCallable('AddPoliceMen');
   return (
     AddPoliceMen({
@@ -18,8 +18,7 @@ const registerwithmail = async (email, password, firstName, lastName, phonenumbe
       first_name: firstName,
       last_name: lastName,
       mail_id: email,
-      phone_number: phonenumber,
-      password
+      phone_number: phonenumber
     }).then(result => result.data)
       .catch(error => ({
         status: 'FAILED',
@@ -30,7 +29,7 @@ const registerwithmail = async (email, password, firstName, lastName, phonenumbe
 
 export function* Register(action) {
   try {
-    const result = yield call(registerwithmail, action.email, action.password, action.firstName, action.lastName, action.phonenumber, action.address, action.employeeID);
+    const result = yield call(registerwithmail, action.email, action.firstName, action.lastName, action.phonenumber, action.address, action.employeeID);
     if (result.status === 'success') {
       alert('Success!!');
       console.log('success');

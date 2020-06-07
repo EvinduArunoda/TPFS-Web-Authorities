@@ -13,12 +13,11 @@ export function defaultAction() {
     type: types.DEFAULT_ACTION
   };
 }
-export function registerPoliceStation(email, password, region, stationID, phonenumber, address, rta) {
+export function registerPoliceStation(email, region, stationID, phonenumber, address, rta) {
   console.log('here');
   return {
     type: types.REGPOLSTA,
     email,
-    password,
     region,
     stationID,
     phonenumber,
