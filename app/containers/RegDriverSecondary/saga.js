@@ -1,9 +1,10 @@
 import {
-  all, fork, call, takeEvery // select, take were removed
+  all, fork, call, takeEvery, put // select, take were removed
 } from 'redux-saga/effects';
 import * as types from './constants';
 import 'firebase/functions';
 import firebase from '../../config/firebaseConfig';
+import { submitSuccess } from './actions';
 
 const submitData = async (email, physicalDisabilities, Class) => {
   const AddPhysicalDisabilities = await firebase.functions().httpsCallable('AddPhysicalDisabilities');
@@ -25,7 +26,7 @@ export function* Submit(action) {
     const result = yield call(submitData, action.email, action.physicalDisabilities, action.Class);
     if (result.status === 'success') {
       alert('Success!!');
-      console.log('success');
+      yield put(submitSuccess());
       window.location.href = '/app/RegisterDrivers';
     } else {
       alert('FAILED!! ' + result.message);

@@ -5,9 +5,11 @@
  */
 
 import { fromJS } from 'immutable';
-import { DEFAULT_ACTION } from './constants';
+import { DEFAULT_ACTION, SUBMIT_SUCCESS, SUBMIT_DATA } from './constants';
 
-export const initialState = fromJS({});
+export const initialState = fromJS({
+  Submitting: false
+});
 
 function regDriverSecondaryReducer(state = initialState, action) {
   switch (action.type) {
@@ -15,6 +17,16 @@ function regDriverSecondaryReducer(state = initialState, action) {
       return state;
     default:
       return state;
+
+    case SUBMIT_DATA:
+      return state.withMutations((mutableState) => {
+        mutableState.setIn(['Submitting'], true);
+      });
+
+    case SUBMIT_SUCCESS:
+      return state.withMutations((mutableState) => {
+        mutableState.setIn(['Submitting'], false);
+      });
   }
 }
 

@@ -9,6 +9,7 @@ import { connect } from 'react-redux';
 import Button from '@material-ui/core/Button';
 import Autocomplete from '@material-ui/lab/Autocomplete';
 import TextField from '@material-ui/core/TextField';
+import FormControl from '@material-ui/core/FormControl';
 import Loading from 'dan-components/Loading';
 import { bindActionCreators, compose } from 'redux';
 import { firestoreConnect } from 'react-redux-firebase';
@@ -18,6 +19,10 @@ import { COLLECTIONS } from '../../config/dbConstants';
 import { submitData } from './actions';
 
 const styles = theme => ({
+  formControl: {
+    margin: theme.spacing(1),
+    minWidth: 120,
+  },
   root: {
     flexGrow: 1,
     padding: 30
@@ -68,10 +73,10 @@ const styles = theme => ({
 
 function AddVehicleDetails(props) {
   const {
-    classes, configs, LicensePlate, SubmitData
+    classes, configs, LicensePlate, SubmitData, Submitting
   } = props;
 
-  if (!configs) {
+  if (!configs || Submitting) {
     return (<Loading />);
   }
   const vehicleConditions = configs.filter(Config => Config.id === 'vehicle_conditions');
@@ -101,7 +106,8 @@ function AddVehicleDetails(props) {
       <Grid container spacing={3} alignItems="flex-start" direction="row" justify="center">
         <Grid item xs={12} md={6}>
           <Paper className={classes.root}>
-            <div className={classes.rootAutoComp}>
+            <FormControl variant="outlined" className={classes.formControl}>
+
               <Autocomplete
                 name="vehicle conditions"
                 multiple
@@ -121,8 +127,8 @@ function AddVehicleDetails(props) {
                   />
                 )}
               />
-            </div>
-            <div>
+            </FormControl>
+            <FormControl variant="outlined" className={classes.formControl}>
               <Autocomplete
                 id="combo-box-policeStation"
                 options={vehicleClassesList}
@@ -138,7 +144,7 @@ function AddVehicleDetails(props) {
                 )}
                 onChange={handleOnChange1}
               />
-            </div>
+            </FormControl>
             {/* eslint-disable-next-line jsx-a11y/click-events-have-key-events,jsx-a11y/no-noninteractive-element-interactions */}
             <form onClick={handleSubmit}>
               <div className={classes.btnArea}>
@@ -162,14 +168,18 @@ AddVehicleDetails.propTypes = {
   // eslint-disable-next-line react/require-default-props
   configs: PropTypes.array,
   // eslint-disable-next-line react/require-default-props
-  SubmitData: PropTypes.function
+  SubmitData: PropTypes.function,
+  // eslint-disable-next-line react/require-default-props
+  Submitting: PropTypes.boolean
 };
 
 const RegReducer = 'regVehicle';
+const addVehicleDetailsReducer = 'addVehicleDetails';
 const reducerFirestore = 'firestore';
 
 const mapStateToProps = (state) => ({
   LicensePlate: state.getIn([RegReducer, 'LicensePlate']),
+  Submitting: state.getIn([addVehicleDetailsReducer, 'Submitting']),
   configs: state.get(reducerFirestore).ordered[COLLECTIONS.CONFIG],
 });
 const mapDispatchToProps = (dispatch) => ({

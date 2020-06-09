@@ -1,53 +1,31 @@
-/**
- *
- * ViewTickets
- *
- */
+import React, { Component } from 'react';
+import { Helmet } from 'react-helmet';
+import brand from 'dan-api/dummy/brand';
+import { PapperBlock } from 'dan-components';
+import TicketData from '../TicketData/index';
 
-import React from 'react';
-import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
-import { createStructuredSelector } from 'reselect';
-import { compose } from 'redux';
-
-import injectSaga from 'utils/injectSaga';
-import injectReducer from 'utils/injectReducer';
-import makeSelectViewTickets from './selectors';
-import reducer from './reducer';
-import saga from './saga';
-
-/* eslint-disable react/prefer-stateless-function */
-export class ViewTickets extends React.Component {
+class ViewTicket extends Component {
   render() {
-    return <div />;
+    const title = brand.name + ' - Ticket Data';
+    const description = brand.desc;
+    return (
+      <div>
+        <Helmet>
+          <title>{title}</title>
+          <meta name="description" content={description} />
+          <meta property="og:title" content={title} />
+          <meta property="og:description" content={description} />
+          <meta property="twitter:title" content={title} />
+          <meta property="twitter:description" content={description} />
+        </Helmet>
+        <PapperBlock title="Ticket Data" whiteBg icon="ios-menu-outline">
+          <div>
+            <TicketData />
+          </div>
+        </PapperBlock>
+      </div>
+    );
   }
 }
 
-ViewTickets.propTypes = {
-  // eslint-disable-next-line react/no-unused-prop-types
-  dispatch: PropTypes.func.isRequired
-};
-
-const mapStateToProps = createStructuredSelector({
-  viewTickets: makeSelectViewTickets()
-});
-
-function mapDispatchToProps(dispatch) {
-  return {
-    dispatch
-  };
-}
-
-const withConnect = connect(
-  mapStateToProps,
-  mapDispatchToProps
-);
-
-const withReducer = injectReducer({ key: 'viewTickets', reducer });
-const withSaga = injectSaga({ key: 'viewTickets', saga });
-
-export default compose(
-  withReducer,
-  withSaga,
-  withConnect
-)(ViewTickets);
+export default ViewTicket;

@@ -9,7 +9,8 @@ import { DEFAULT_ACTION, REGDRIVER, REGSUCCESS } from './constants';
 
 export const initialState = fromJS({
   email: null,
-  registered: false
+  registered: false,
+  Submitting: false
 });
 
 function registerDriversReducer(state = initialState, action) {
@@ -23,11 +24,13 @@ function registerDriversReducer(state = initialState, action) {
     case REGDRIVER:
       return state.withMutations((mutableState) => {
         mutableState.setIn(['email'], action.email);
+        mutableState.setIn(['Submitting'], true);
       });
 
     case REGSUCCESS:
       return state.withMutations((mutableState) => {
         mutableState.setIn(['registered'], true);
+        mutableState.setIn(['Submitting'], false);
       });
   }
 }

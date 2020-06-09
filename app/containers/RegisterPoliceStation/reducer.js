@@ -5,12 +5,13 @@
  */
 
 import { fromJS } from 'immutable';
-import { DEFAULT_ACTION, REGPOLSTA } from './constants';
+import { DEFAULT_ACTION, REGPOLSTA, REGSUCCESS } from './constants';
 
 
 export const initialState = fromJS({
   email: null,
-  registered: false
+  registered: false,
+  Submitting: false
 });
 
 function registerPoliceStationReducer(state = initialState, action) {
@@ -23,6 +24,12 @@ function registerPoliceStationReducer(state = initialState, action) {
     case REGPOLSTA:
       return state.withMutations((mutableState) => {
         mutableState.setIn(['email'], action.email);
+        mutableState.setIn(['Submitting'], true);
+      });
+
+    case REGSUCCESS:
+      return state.withMutations((mutableState) => {
+        mutableState.setIn(['Submitting'], false);
       });
   }
 }

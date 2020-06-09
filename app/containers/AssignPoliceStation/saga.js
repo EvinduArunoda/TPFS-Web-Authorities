@@ -1,9 +1,10 @@
 import {
-  all, fork, call, takeEvery // select, take were removed
+  all, fork, call, takeEvery, put // select, take were removed
 } from 'redux-saga/effects';
 import * as types from './constants';
 import 'firebase/functions';
 import firebase from '../../config/firebaseConfig';
+import { assignSuccess } from './actions';
 
 const submitData = async (email, station) => {
   const AssignPoliceStation = await firebase.functions().httpsCallable('AssignPoliceStation');
@@ -24,7 +25,7 @@ export function* Submit(action) {
     const result = yield call(submitData, action.email, action.station);
     if (result.status === 'success') {
       alert('Success!!');
-      console.log('success');
+      yield put(assignSuccess());
       window.location.href = '/app/RegisterPolicemen';
     } else {
       alert('FAILED!! Here' + result.message);

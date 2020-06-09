@@ -16,10 +16,14 @@ import loginReducer from '../containers/Login/reducer';
 import regPoliceMen from '../containers/RegisterPoliceman/reducer';
 import regDriver from '../containers/RegisterDrivers/reducer';
 import regVehicle from '../containers/RegisterVehicles/reducer';
+import regPolSta from '../containers/RegisterPoliceStation/reducer';
 import complaintReducer from '../containers/HandleComplaints/reducer';
 import openTktReducer from '../containers/HandleOpenTickets/reducer';
 import closeTicket from '../containers/ConfirmCloseTicket/reducer';
 import submitPayment from '../containers/SubmitPaymentDetails/reducer';
+import assignPoliceStation from '../containers/AssignPoliceStation/reducer';
+import regDriverSec from '../containers/RegDriverSecondary/reducer';
+import addVehicleDetails from '../containers/AddVehicleDetails/reducer';
 /**
  * Creates the main reducer with the dynamically injected ones
  */
@@ -37,6 +41,10 @@ export default function createReducer(injectedReducers = {}) {
     openTktReducer,
     closeTicket,
     submitPayment,
+    assignPoliceStation,
+    regPolSta,
+    regDriverSec,
+    addVehicleDetails,
     firebase: firebaseReducer,
     firestore: firestoreReducer,
     language: languageProviderReducer,

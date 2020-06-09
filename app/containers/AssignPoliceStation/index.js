@@ -68,10 +68,10 @@ const styles = theme => ({
 
 function AssignPoliceStation(props) {
   const {
-    classes, webUsers, email, SubmitData
+    classes, webUsers, email, SubmitData, Submitting
   } = props;
 
-  if (!webUsers) {
+  if (!webUsers || Submitting) {
     return (<Loading />);
   }
   const policeStations = webUsers.filter(User => User.type === 'policeStation');
@@ -133,15 +133,19 @@ AssignPoliceStation.propTypes = {
   // eslint-disable-next-line react/require-default-props
   webUsers: PropTypes.array,
   // eslint-disable-next-line react/require-default-props
-  SubmitData: PropTypes.function
+  SubmitData: PropTypes.function,
+  // eslint-disable-next-line react/require-default-props
+  Submitting: PropTypes.boolean
 };
 
 const RegReducer = 'regPoliceMen';
 const reducerFirestore = 'firestore';
+const submittingRed = 'assignPoliceStation';
 
 const mapStateToProps = (state) => ({
   email: state.getIn([RegReducer, 'email']),
   webUsers: state.get(reducerFirestore).ordered[COLLECTIONS.USER],
+  Submitting: state.getIn([submittingRed, 'submitting']),
 });
 const mapDispatchToProps = (dispatch) => ({
   SubmitData: bindActionCreators(assignPoliceStation, dispatch),

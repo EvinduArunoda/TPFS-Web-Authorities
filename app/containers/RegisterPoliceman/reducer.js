@@ -9,7 +9,8 @@ import { DEFAULT_ACTION, REGPOL, REGSUCCESS } from './constants';
 
 export const initialState = fromJS({
   email: null,
-  registered: false
+  registered: false,
+  submitting: false
 });
 
 function registerPolicemanReducer(state = initialState, action) {
@@ -22,11 +23,13 @@ function registerPolicemanReducer(state = initialState, action) {
     case REGPOL:
       return state.withMutations((mutableState) => {
         mutableState.setIn(['email'], action.email);
+        mutableState.setIn(['submitting'], true);
       });
 
     case REGSUCCESS:
       return state.withMutations((mutableState) => {
         mutableState.setIn(['registered'], true);
+        mutableState.setIn(['submitting'], false);
       });
   }
 }

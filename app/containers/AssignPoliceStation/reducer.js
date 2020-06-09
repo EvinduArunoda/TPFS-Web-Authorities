@@ -5,9 +5,11 @@
  */
 
 import { fromJS } from 'immutable';
-import { DEFAULT_ACTION } from './constants';
+import { DEFAULT_ACTION, ASSIGN_STATION, ASSIGN_SUCCESS } from './constants';
 
-export const initialState = fromJS({});
+export const initialState = fromJS({
+  submitting: false
+});
 
 function assignPoliceStationReducer(state = initialState, action) {
   switch (action.type) {
@@ -15,6 +17,16 @@ function assignPoliceStationReducer(state = initialState, action) {
       return state;
     default:
       return state;
+
+    case ASSIGN_STATION:
+      return state.withMutations((mutableState) => {
+        mutableState.setIn(['submitting'], true);
+      });
+
+    case ASSIGN_SUCCESS:
+      return state.withMutations((mutableState) => {
+        mutableState.setIn(['submitting'], false);
+      });
   }
 }
 

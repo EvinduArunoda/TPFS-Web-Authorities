@@ -9,7 +9,8 @@ import { DEFAULT_ACTION, REG_SUCCESS, REG_VEHICLE } from './constants';
 
 export const initialState = fromJS({
   LicensePlate: null,
-  registered: false
+  registered: false,
+  Submitting: false
 });
 
 function registerVehiclesReducer(state = initialState, action) {
@@ -22,11 +23,13 @@ function registerVehiclesReducer(state = initialState, action) {
     case REG_VEHICLE:
       return state.withMutations((mutableState) => {
         mutableState.setIn(['LicensePlate'], action.LicensePlate);
+        mutableState.setIn(['Submitting'], true);
       });
 
     case REG_SUCCESS:
       return state.withMutations((mutableState) => {
         mutableState.setIn(['registered'], true);
+        mutableState.setIn(['Submitting'], false);
       });
   }
 }

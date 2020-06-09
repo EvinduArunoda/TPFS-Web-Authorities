@@ -73,10 +73,10 @@ const styles = theme => ({
 
 function DriverSecondaryReg(props) {
   const {
-    classes, configs, email, SubmitData
+    classes, configs, email, SubmitData, Submitting
   } = props;
 
-  if (!configs) {
+  if (!configs || Submitting) {
     return (<Loading />);
   }
   const physicalDisabilities = configs.filter(Config => Config.id === 'physical_disabilities');
@@ -170,14 +170,19 @@ DriverSecondaryReg.propTypes = {
   // eslint-disable-next-line react/require-default-props
   configs: PropTypes.array,
   // eslint-disable-next-line react/require-default-props
-  SubmitData: PropTypes.function
+  SubmitData: PropTypes.function,
+  // eslint-disable-next-line react/require-default-props
+  Submitting: PropTypes.boolean
+
 };
 
 const RegReducer = 'regDriver';
 const reducerFirestore = 'firestore';
+const regDriverSecReducer = 'regDriverSec';
 
 const mapStateToProps = (state) => ({
   email: state.getIn([RegReducer, 'email']),
+  Submitting: state.getIn([regDriverSecReducer, 'Submitting']),
   configs: state.get(reducerFirestore).ordered[COLLECTIONS.CONFIG],
 });
 const mapDispatchToProps = (dispatch) => ({
