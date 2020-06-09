@@ -4,7 +4,7 @@
  *
  */
 
-import { DEFAULT_ACTION, SUBMIT_DATA } from './constants';
+import { DEFAULT_ACTION, SUBMIT_DATA, SUBMIT_SUCCESS } from './constants';
 
 // eslint-disable-next-line import/prefer-default-export
 export function defaultAction() {
@@ -19,5 +19,11 @@ export function submitData(LicensePlate, VehicleConditions, Class) {
     LicensePlate,
     VehicleConditions,
     Class
+  };
+}
+
+export function submitSuccess() {
+  return {
+    type: SUBMIT_SUCCESS
   };
 }

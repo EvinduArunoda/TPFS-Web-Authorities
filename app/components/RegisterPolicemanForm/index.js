@@ -4,6 +4,7 @@ import { withStyles } from '@material-ui/core/styles';
 import classNames from 'classnames';
 import { connect } from 'react-redux';
 import { NavLink } from 'react-router-dom';
+import Loading from 'dan-components/Loading';
 import { Field, reduxForm } from 'redux-form/immutable';
 import Button from '@material-ui/core/Button';
 import FormControl from '@material-ui/core/FormControl';
@@ -46,8 +47,12 @@ class Index extends React.Component {
       handleSubmit,
       pristine,
       submitting,
-      deco
+      deco,
+      Submitting
     } = this.props;
+    if (Submitting) {
+      return (<Loading />);
+    }
     return (
       <Fragment>
 
@@ -154,6 +159,8 @@ Index.propTypes = {
   pristine: PropTypes.bool.isRequired,
   submitting: PropTypes.bool.isRequired,
   deco: PropTypes.bool.isRequired,
+  // eslint-disable-next-line react/require-default-props
+  Submitting: PropTypes.bool,
 };
 
 const RegisterFormReduxed = reduxForm({
@@ -162,10 +169,12 @@ const RegisterFormReduxed = reduxForm({
 })(Index);
 
 const reducer = 'ui';
+const reducerRegPoliceMan = 'regPoliceMen';
 const RegisterFormMapped = connect(
   state => ({
     force: state,
-    deco: state.getIn([reducer, 'decoration'])
+    deco: state.getIn([reducer, 'decoration']),
+    Submitting: state.getIn([reducerRegPoliceMan, 'submitting'])
   }),
 )(RegisterFormReduxed);
 
