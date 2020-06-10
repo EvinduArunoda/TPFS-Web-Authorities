@@ -7,8 +7,6 @@ import { firestoreConnect, isLoaded, withFirebase } from 'react-redux-firebase';
 import Dashboard from '../Templates/Dashboard';
 import { COLLECTIONS } from '../../config/dbConstants';
 import {
-  Parent,
-  BlankPage,
   Error,
   NotFound,
   RegisterPoliceman,
@@ -27,7 +25,8 @@ import {
   HandleOpenTickets,
   ViewTickets,
   EnterPaymentDetails,
-  ConfirmCloseTicket
+  ConfirmCloseTicket,
+  PoliceManProfiles
 } from '../pageListAsync';
 
 class Application extends React.Component {
@@ -68,27 +67,29 @@ class Application extends React.Component {
           ? (
             a ? (
               <Switch>
-                <Route exact path="/app" component={BlankPage} />
+                <Route exact path="/app" component={ViewTickets} />
                 { !ticketID ? <Route path="/app/HandleOpenTickets" component={HandleOpenTickets} /> : ticketStatus ? <Route path="/app/HandleOpenTickets" component={ConfirmCloseTicket} />
                   : <Route path="/app/HandleOpenTickets" component={EnterPaymentDetails} />
                 }
                 <Route path="/app/ViewTickets" component={ViewTickets} />
                 <Route path="/app/EnterPaymentDetails" component={EnterPaymentDetails} />
-                <Route path="/app/page-list" component={Parent} />
+                <Route path="/app/PoliceMan-Profiles" component={PoliceManProfiles} />
+                <Route path="/app/Driver-Profile" component={DriverProfile} />
+                <Route path="/app/Vehicle-Profile" component={VehicleProfiles} />
                 <Route path="/app/pages/not-found" component={NotFound} />
                 <Route path="/app/pages/error" component={Error} />
                 <Route component={NotFound} />
               </Switch>
             ) : (
               <Switch>
-                <Route exact path="/app" component={RegisterPoliceman} />
+                <Route exact path="/app" component={PoliceStationProfile} />
                 <Route path="/app/HandleComplaints" component={HandleComplaints} />
                 {!registeredPoliceMen ? <Route path="/app/RegisterPolicemen" component={RegisterPoliceman} /> : <Route path="/app/RegisterPolicemen" component={AssignPoliceStation} /> }
                 <Route path="/app/RegisterPoliceStation" component={RegisterPoliceStation} />
                 {!registered ? <Route path="/app/RegisterDrivers" component={RegisterDrivers} /> : <Route path="/app/RegisterDrivers" component={RegDriverSec} />}
                 <Route path="/app/RegisterDrivers" component={RegisterDrivers} />
                 {!registeredVehicle ? <Route path="/app/RegisterVehicles" component={RegisterVehicles} /> : <Route path="/app/RegisterVehicles" component={AddVehicleDetails} />}
-                <Route path="/app/PoliceMenProfileSta" component={PoliceMenProfileSta} />
+                <Route path="/app/Policeman-Profile" component={PoliceMenProfileSta} />
                 <Route path="/app/PoliceStationProfile" component={PoliceStationProfile} />
                 <Route path="/app/Vehicle-Profile" component={VehicleProfiles} />
                 <Route path="/app/Driver-Profile" component={DriverProfile} />

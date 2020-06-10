@@ -22,11 +22,8 @@ import { connect } from 'react-redux';
 import FormControl from '@material-ui/core/FormControl';
 import { COLLECTIONS } from '../../config/dbConstants';
 import styles from './profile-jss';
-// import firestore from '../../config/firebaseConfig';
 
-function PoliceMenProfileSta(props) {
-  // const policeStation = 'Default';
-  // const policeMan = 'Default';
+function ViewPolicemanProfile(props) {
   const {
     classes, auth, policeMen, webUsers
   } = props;
@@ -39,22 +36,10 @@ function PoliceMenProfileSta(props) {
   const [employeeID, setEmployeeID] = React.useState(' ');
   const [Address, setAddress] = React.useState(' ');
   const [phone, setPhone] = React.useState(' ');
-  const [Station, setStation] = React.useState(null);
-  const [PoliceMen, setPoliceMen] = React.useState([]);
 
-  const loadedRTA = webUsers.filter(user => user.email === auth.email)[0];
-  const AllpoliceStatuions = webUsers.filter(user => user.type === 'policeStation');
-  const RTApoliceStations = AllpoliceStatuions.filter(user => user.rta.id === loadedRTA.id);
+  const loadedUser = webUsers.filter(user => user.email === auth.email)[0];
 
-  const policeStationlist = RTApoliceStations.map(station => ({ Station: station.station_id }));
-
-  const getPoliceMen = (PoliceStation) => (policeMen.filter(user => user.station_id === PoliceStation));
-
-  const handleStationChange = (event, value) => {
-    setStation(value);
-    setPoliceMen(getPoliceMen(Station.Station));
-    setPoliceMen(getPoliceMen(Station.Station));
-  };
+  const PoliceMen = policeMen.filter(user => user.station_id === loadedUser.station_id);
 
   const handlePoliceManChange = (event, value) => {
     setName((value.first_name + ' ' + value.last_name));
@@ -77,24 +62,7 @@ function PoliceMenProfileSta(props) {
         <meta property="twitter:title" content={title} />
         <meta property="twitter:description" content={description} />
       </Helmet>
-      <PapperBlock title="Select Policeman" desc="Select the policeStation and the policeman">
-        <FormControl variant="outlined" className={classes.formControl}>
-          <Autocomplete
-            id="combo-box-policeStation"
-            options={policeStationlist}
-            getOptionLabel={(option) => option.Station}
-            className={classes.combo}
-            renderInput={(params) => (
-              <TextField
-                {...params}
-                label="Select Police Station"
-                variant="outlined"
-                style={{ minWidth: 200 }}
-              />
-            )}
-            onChange={handleStationChange}
-          />
-        </FormControl>
+      <PapperBlock title="View Policeman Profile" desc="Select the policeman">
         <FormControl variant="outlined" className={classes.formControl}>
           <Autocomplete
             id="combo-box-policemen"
@@ -148,7 +116,7 @@ function PoliceMenProfileSta(props) {
 
 const reducerFirestore = 'firestore';
 
-PoliceMenProfileSta.propTypes = {
+ViewPolicemanProfile.propTypes = {
   classes: PropTypes.object.isRequired,
   // eslint-disable-next-line react/require-default-props
   auth: PropTypes.object,
@@ -170,4 +138,4 @@ export default compose(
   ]),
   connect(
     mapStateToProps,
-  ))(withStyles(styles)(withFirebase(PoliceMenProfileSta)));
+  ))(withStyles(styles)(withFirebase(ViewPolicemanProfile)));

@@ -12,10 +12,9 @@ import VisibilityOff from '@material-ui/icons/VisibilityOff';
 import InputAdornment from '@material-ui/core/InputAdornment';
 import Typography from '@material-ui/core/Typography';
 import FormControl from '@material-ui/core/FormControl';
-import FormControlLabel from '@material-ui/core/FormControlLabel';
 import ArrowForward from '@material-ui/icons/ArrowForward';
 import Paper from '@material-ui/core/Paper';
-import { TextFieldRedux, CheckboxRedux } from './ReduxFormMUI';
+import { TextFieldRedux } from './ReduxFormMUI';
 import styles from './user-jss';
 import Notification from '../Notification/Notification';
 
@@ -111,7 +110,6 @@ class LoginForm extends React.Component {
                 </FormControl>
               </div>
               <div className={classes.optArea}>
-                <FormControlLabel className={classes.label} control={<Field name="checkbox" component={CheckboxRedux} />} label="Remember" />
                 <Button size="small" component={LinkBtn} to="/reset-password" className={classes.buttonLink}>Forgot Password</Button>
               </div>
               <div className={classes.btnArea}>

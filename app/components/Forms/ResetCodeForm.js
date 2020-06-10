@@ -17,13 +17,8 @@ import styles from './user-jss';
 
 // validation functions
 const required = value => (value == null ? 'Required' : undefined);
-const email = value => (
-  value && !/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(value)
-    ? 'Invalid email'
-    : undefined
-);
 
-class ResetForm extends React.Component {
+class ResetCodeForm extends React.Component {
   render() {
     const {
       classes,
@@ -32,7 +27,9 @@ class ResetForm extends React.Component {
       submitting,
       deco,
     } = this.props;
-
+      const LinkBtn = React.forwardRef(function LinkBtn(props, ref) { // eslint-disable-line
+          return <NavLink to={props.to} {...props} innerRef={ref} />; // eslint-disable-line
+    });
     return (
       <Paper className={classNames(classes.paperWrap, deco && classes.petal)}>
         <div className={classes.topBar}>
@@ -42,40 +39,41 @@ class ResetForm extends React.Component {
           </NavLink>
         </div>
         <Typography variant="h4" className={classes.title} gutterBottom>
-          Reset Password
+                    Reset Password
         </Typography>
         <Typography variant="caption" className={classes.subtitle} gutterBottom align="center">
-          Send reset password code to Your email
+                    Send reset password code to Your email
         </Typography>
         <section className={classes.formWrap}>
           <form onSubmit={handleSubmit}>
             <div>
               <FormControl className={classes.formControl}>
                 <Field
-                  name="email"
+                  name="code"
                   component={TextFieldRedux}
-                  placeholder="Your Email"
-                  label="Your Email"
+                  placeholder="Reset Code"
+                  label="Rest Code"
                   required
-                  validate={[required, email]}
+                  validate={[required]}
                   className={classes.field}
                 />
               </FormControl>
             </div>
             <div className={classes.btnArea}>
               <Button variant="contained" color="primary" type="submit">
-                Send Reset Code
+                                Verify
                 <ArrowForward className={classNames(classes.rightIcon, classes.iconSmall)} disabled={submitting || pristine} />
               </Button>
             </div>
           </form>
+          <Button size="small" component={LinkBtn} to="/reset-password" className={classes.buttonLink}>Send Email Again</Button>
         </section>
       </Paper>
     );
   }
 }
 
-ResetForm.propTypes = {
+ResetCodeForm.propTypes = {
   classes: PropTypes.object.isRequired,
   handleSubmit: PropTypes.func.isRequired,
   pristine: PropTypes.bool.isRequired,
@@ -86,7 +84,7 @@ ResetForm.propTypes = {
 const ResetFormReduxed = reduxForm({
   form: 'immutableEResetFrm',
   enableReinitialize: true,
-})(ResetForm);
+})(ResetCodeForm);
 
 const reducer = 'ui';
 const RegisterFormMapped = connect(

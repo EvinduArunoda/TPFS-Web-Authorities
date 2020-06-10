@@ -129,3 +129,11 @@ export const ConfirmCloseTicket = Loadable({
   loader: () => import('./ConfirmCloseTicket'),
   loading: Loading,
 });
+export const PoliceManProfiles = Loadable({
+  loader: () => import('./ViewPolicemanProfile'),
+  loading: Loading,
+});
+export const ForgetPassword = Loadable({
+  loader: () => import('./ForgetPassword'),
+  loading: Loading,
+});

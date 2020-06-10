@@ -4,11 +4,11 @@ import { PropTypes } from 'prop-types';
 import { connect } from 'react-redux';
 import {
   Register,
-  ResetPassword,
   ComingSoon,
   Maintenance,
   NotFound,
-  LoginPage
+  LoginPage,
+  ForgetPassword
 } from '../pageListAsync';
 import LoginDedicated from '../Pages/Standalone/LoginDedicated';
 import Outer from '../Templates/Outer';
@@ -29,7 +29,7 @@ class Auth extends React.Component {
               <Route path="/" exact component={LoginDedicated} />
               <Route path="/login" component={LoginPage} />
               <Route path="/register" component={Register} />
-              <Route path="/reset-password" component={ResetPassword} />
+              <Route path="/reset-password" component={ForgetPassword} />
               <Route path="/maintenance" component={Maintenance} />
               <Route path="/coming-soon" component={ComingSoon} />
               <Route component={NotFound} />

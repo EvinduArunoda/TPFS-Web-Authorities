@@ -36,13 +36,12 @@ function TicketData(props) {
   const loadedUser = users.filter(user => user.email === auth.email)[0];
 
   const today = new Date();
-  // const dd = String(today.getDate()).padStart(2, '0');
   const mm = String(today.getMonth()).padStart(2, '0'); // January is 0!
   const yyyy = today.getFullYear();
 
   const [Year, setYear] = React.useState(yyyy); // set current year
   const [Month, setMonth] = React.useState(mm); // set current month
-  const [Type, setType] = React.useState('open'); // set current month
+  const [Type, setType] = React.useState('open'); // set type to 'open'
   const handleYearChange = event => {
     setYear(event.target.value);
   };
@@ -53,7 +52,6 @@ function TicketData(props) {
     setType(event.target.value);
   };
   const relatedTickets = tickets.filter(Ticket => Ticket.station_id === loadedUser.station_id && Ticket.Status === Type && moment(Ticket.Time.toDate()).month() === parseInt(Month, 10) && moment(Ticket.Time.toDate()).year() === parseInt(Year, 10));
-  console.log(relatedTickets, Type, Month);
   const inputLabel = React.useRef(null);
   const [labelWidth, setLabelWidth] = React.useState(0);
   React.useEffect(() => {
@@ -131,7 +129,7 @@ function TicketData(props) {
           <TableHead>
             <TableRow>
               <TableCell padding="default">License Number</TableCell>
-              <TableCell align="right">Fines</TableCell>
+              <TableCell align="right">Offences</TableCell>
               <TableCell align="right">Date</TableCell>
               <TableCell align="right">Amount</TableCell>
             </TableRow>
