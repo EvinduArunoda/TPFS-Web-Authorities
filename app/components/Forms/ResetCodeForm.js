@@ -42,7 +42,7 @@ class ResetCodeForm extends React.Component {
                     Reset Password
         </Typography>
         <Typography variant="caption" className={classes.subtitle} gutterBottom align="center">
-                    Send reset password code to Your email
+                    Enter the verification code that you received to your email
         </Typography>
         <section className={classes.formWrap}>
           <form onSubmit={handleSubmit}>
@@ -52,7 +52,7 @@ class ResetCodeForm extends React.Component {
                   name="code"
                   component={TextFieldRedux}
                   placeholder="Reset Code"
-                  label="Rest Code"
+                  label="Reset Code"
                   required
                   validate={[required]}
                   className={classes.field}

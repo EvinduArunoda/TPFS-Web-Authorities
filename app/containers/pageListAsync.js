@@ -29,10 +29,10 @@ export const Register = Loadable({
   loader: () => import('./Pages/Users/Register'),
   loading: Loading,
 });
-export const ResetPassword = Loadable({
-  loader: () => import('./Pages/Users/ResetPassword'),
-  loading: Loading,
-});
+// export const ResetPassword = Loadable({
+//   loader: () => import('./Pages/Users/ResetPassword'),
+//   loading: Loading,
+// });
 export const NotFound = Loadable({
   loader: () => import('./NotFound/NotFound'),
   loading: Loading,
@@ -135,5 +135,13 @@ export const PoliceManProfiles = Loadable({
 });
 export const ForgetPassword = Loadable({
   loader: () => import('./ForgetPassword'),
+  loading: Loading,
+});
+export const ResetPassword = Loadable({
+  loader: () => import('./ResetPassword'),
+  loading: Loading,
+});
+export const ResetPasswordCode = Loadable({
+  loader: () => import('./ResetPasswordCode'),
   loading: Loading,
 });

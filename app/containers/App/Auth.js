@@ -8,7 +8,9 @@ import {
   Maintenance,
   NotFound,
   LoginPage,
-  ForgetPassword
+  ForgetPassword,
+  ResetPasswordCode,
+  // ResetPassword
 } from '../pageListAsync';
 import LoginDedicated from '../Pages/Standalone/LoginDedicated';
 import Outer from '../Templates/Outer';
@@ -16,7 +18,7 @@ import Outer from '../Templates/Outer';
 class Auth extends React.Component {
   render() {
     const {
-      auth
+      auth, validEmail
     } = this.props;
     if (!auth.isLoaded) return null;
     const redirect = !auth.uid;
@@ -29,7 +31,7 @@ class Auth extends React.Component {
               <Route path="/" exact component={LoginDedicated} />
               <Route path="/login" component={LoginPage} />
               <Route path="/register" component={Register} />
-              <Route path="/reset-password" component={ForgetPassword} />
+              { !validEmail ? <Route path="/reset-password" component={ForgetPassword} /> : <Route path="/reset-password" component={ResetPasswordCode} />}
               <Route path="/maintenance" component={Maintenance} />
               <Route path="/coming-soon" component={ComingSoon} />
               <Route component={NotFound} />
@@ -43,13 +45,15 @@ class Auth extends React.Component {
 }
 
 Auth.propTypes = {
-  auth: PropTypes.object.isRequired
-
+  auth: PropTypes.object.isRequired,
+  // eslint-disable-next-line react/require-default-props
+  validEmail: PropTypes.boolean
 };
-
+const forgetPasswordReducer = 'forgetPassword';
 
 const mapStateToProps = (state) => ({
   auth: state.getIn(['firebase']).auth,
+  validEmail: state.getIn([forgetPasswordReducer, 'validEmail'])
 });
 
 const AuthInit = connect(
