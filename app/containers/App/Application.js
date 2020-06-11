@@ -18,7 +18,6 @@ import {
   PoliceStationProfile,
   VehicleProfiles,
   DriverProfile,
-  FeedBack,
   RegDriverSec,
   AssignPoliceStation,
   AddVehicleDetails,
@@ -26,13 +25,17 @@ import {
   ViewTickets,
   EnterPaymentDetails,
   ConfirmCloseTicket,
-  PoliceManProfiles
+  PoliceManProfiles,
+  ChangePassword,
+  ResetPasswordCode,
+  ResetPassword,
+  FeedBackForm
 } from '../pageListAsync';
 
 class Application extends React.Component {
   render() {
     const {
-      changeMode, history, auth, users, registered, registeredPoliceMen, registeredVehicle, ticketID, ticketStatus
+      changeMode, history, auth, users, registered, registeredPoliceMen, registeredVehicle, ticketID, ticketStatus, validEmail, validCode, complaintIDSet
     } = this.props;
     if (!auth.isLoaded || !isLoaded(users)) return null;
     const loadedUser = users.filter(user => user.email === auth.email)[0];
@@ -71,6 +74,7 @@ class Application extends React.Component {
                 { !ticketID ? <Route path="/app/HandleOpenTickets" component={HandleOpenTickets} /> : ticketStatus ? <Route path="/app/HandleOpenTickets" component={ConfirmCloseTicket} />
                   : <Route path="/app/HandleOpenTickets" component={EnterPaymentDetails} />
                 }
+                { !validEmail ? <Route path="/app/Change-Password" component={ChangePassword} /> : !validCode ? <Route path="/app/Change-Password" component={ResetPasswordCode} /> : <Route path="/app/Change-Password" component={ResetPassword} />}
                 <Route path="/app/ViewTickets" component={ViewTickets} />
                 <Route path="/app/EnterPaymentDetails" component={EnterPaymentDetails} />
                 <Route path="/app/PoliceMan-Profiles" component={PoliceManProfiles} />
@@ -83,7 +87,7 @@ class Application extends React.Component {
             ) : (
               <Switch>
                 <Route exact path="/app" component={PoliceStationProfile} />
-                <Route path="/app/HandleComplaints" component={HandleComplaints} />
+                { !complaintIDSet ? <Route path="/app/HandleComplaints" component={HandleComplaints} /> : <Route path="/app/HandleComplaints" component={FeedBackForm} />}
                 {!registeredPoliceMen ? <Route path="/app/RegisterPolicemen" component={RegisterPoliceman} /> : <Route path="/app/RegisterPolicemen" component={AssignPoliceStation} /> }
                 <Route path="/app/RegisterPoliceStation" component={RegisterPoliceStation} />
                 {!registered ? <Route path="/app/RegisterDrivers" component={RegisterDrivers} /> : <Route path="/app/RegisterDrivers" component={RegDriverSec} />}
@@ -93,7 +97,7 @@ class Application extends React.Component {
                 <Route path="/app/PoliceStationProfile" component={PoliceStationProfile} />
                 <Route path="/app/Vehicle-Profile" component={VehicleProfiles} />
                 <Route path="/app/Driver-Profile" component={DriverProfile} />
-                <Route path="/app/FeedBack" component={FeedBack} />
+                { !validEmail ? <Route path="/app/Change-Password" component={ChangePassword} /> : !validCode ? <Route path="/app/Change-Password" component={ResetPasswordCode} /> : <Route path="/app/Change-Password" component={ResetPassword} />}
                 <Route path="/app/pages/not-found" component={NotFound} />
                 <Route path="/app/pages/error" component={Error} />
                 <Route component={NotFound} />
@@ -126,7 +130,13 @@ Application.propTypes = {
   // eslint-disable-next-line react/require-default-props
   ticketID: PropTypes.Boolean,
   // eslint-disable-next-line react/require-default-props
-  ticketStatus: PropTypes.Boolean
+  ticketStatus: PropTypes.Boolean,
+  // eslint-disable-next-line react/require-default-props
+  validEmail: PropTypes.boolean,
+  // eslint-disable-next-line react/require-default-props
+  validCode: PropTypes.boolean,
+  // eslint-disable-next-line react/require-default-props
+  complaintIDSet: PropTypes.boolean,
 };
 
 const reducerFirestore = 'firestore';
@@ -134,6 +144,9 @@ const RegReducer = 'regDriver';
 const policeMenReducer = 'regPoliceMen';
 const vehicleReducer = 'regVehicle';
 const tktReducer = 'openTktReducer';
+const forgetPasswordReducer = 'ForgetPassword';
+const resetPasswordCodeReducer = 'resetPasswordCode';
+const complaintReducer = 'complaintReducer';
 
 const mapStateToProps = (state) => ({
   auth: state.getIn(['firebase']).auth,
@@ -143,6 +156,9 @@ const mapStateToProps = (state) => ({
   registeredVehicle: state.getIn([vehicleReducer, 'registered']),
   ticketID: state.getIn([tktReducer, 'idSet']),
   ticketStatus: state.getIn([tktReducer, 'status']),
+  validEmail: state.getIn([forgetPasswordReducer, 'validEmail']),
+  validCode: state.getIn([resetPasswordCodeReducer, 'validCode']),
+  complaintIDSet: state.getIn([complaintReducer, 'redirect']),
 });
 
 const AppInit = compose(

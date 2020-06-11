@@ -14,7 +14,7 @@ export function defaultAction() {
   };
 }
 export function registerPoliceStation(email, region, stationID, phonenumber, address, rta) {
-  console.log('here');
+  console.log(rta);
   return {
     type: types.REGPOLSTA,
     email,
