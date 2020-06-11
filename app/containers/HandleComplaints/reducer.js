@@ -25,7 +25,8 @@ function handleComplaintsReducer(state = initialState, action) {
       });
     case FLIP_RDRCT:
       return state.withMutations((mutableState) => {
-        mutableState.setIn(['redirect'], true);
+        mutableState.setIn(['redirect'], false);
+        mutableState.setIn(['id'], null);
       });
   }
 }

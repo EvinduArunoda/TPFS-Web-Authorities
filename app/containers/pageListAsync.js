@@ -97,10 +97,6 @@ export const DriverProfile = Loadable({
   loader: () => import('./DriverProfile'),
   loading: Loading,
 });
-export const FeedBack = Loadable({
-  loader: () => import('./GiveFeedBack'),
-  loading: Loading,
-});
 export const RegDriverSec = Loadable({
   loader: () => import('./RegDriverSecondary'),
   loading: Loading,
@@ -119,6 +115,10 @@ export const HandleOpenTickets = Loadable({
 });
 export const ViewTickets = Loadable({
   loader: () => import('./ViewTickets'),
+  loading: Loading,
+});
+export const ViewTicketsRta = Loadable({
+  loader: () => import('./ViewTicketsRta'),
   loading: Loading,
 });
 export const EnterPaymentDetails = Loadable({
@@ -143,5 +143,13 @@ export const ResetPassword = Loadable({
 });
 export const ResetPasswordCode = Loadable({
   loader: () => import('./ResetPasswordCode'),
+  loading: Loading,
+});
+export const ChangePassword = Loadable({
+  loader: () => import('./ChangePassword'),
+  loading: Loading,
+});
+export const FeedBackForm = Loadable({
+  loader: () => import('./GiveFeedBack'),
   loading: Loading,
 });

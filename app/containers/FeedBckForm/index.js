@@ -9,7 +9,8 @@ import Button from '@material-ui/core/Button';
 import {
   TextFieldRedux,
 } from 'dan-components/Forms/ReduxFormMUI';
-
+import { bindActionCreators, compose } from 'redux';
+import { flipRedirect } from '../HandleComplaints/actions';
 // validation functions
 const required = value => (value == null ? 'Required' : undefined);
 
@@ -44,7 +45,13 @@ class NotificationForm extends Component {
       classes,
       handleSubmit,
       submitting,
+      Back
     } = this.props;
+
+    const handleBack = () => {
+      Back();
+    };
+
     return (
       <div>
         <Grid container spacing={3} alignItems="flex-start" direction="row" justify="center">
@@ -70,6 +77,14 @@ class NotificationForm extends Component {
                 </div>
               </form>
             </Paper>
+            <div>
+              To cancel the process :
+            </div>
+            <div>
+              <Button variant="contained" color="secondary" type="submit" onClick={handleBack}>
+                Go Back
+              </Button>
+            </div>
           </Grid>
         </Grid>
       </div>
@@ -82,8 +97,18 @@ NotificationForm.propTypes = {
   classes: PropTypes.object.isRequired,
   handleSubmit: PropTypes.func.isRequired,
   submitting: PropTypes.bool.isRequired,
+  // eslint-disable-next-line react/require-default-props
+  Back: PropTypes.func,
 };
-
+const mapStateToProps = () => ({
+});
+const mapDispatchToProps = (dispatch) => ({
+  Back: bindActionCreators(flipRedirect, dispatch),
+});
+const withConnect = connect(
+  mapStateToProps,
+  mapDispatchToProps
+);
 const ReduxFormMapped = reduxForm({
   form: 'immutableExample',
   enableReinitialize: true,
@@ -97,4 +122,6 @@ const FormInit = connect(
   }),
 )(ReduxFormMapped);
 
-export default withStyles(styles)(FormInit);
+export default compose(
+  withConnect
+)(withStyles(styles)(FormInit));

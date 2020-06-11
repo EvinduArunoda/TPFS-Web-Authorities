@@ -100,4 +100,30 @@ module.exports = [
       },
     ]
   },
+  {
+    key: 'Tickets',
+    name: 'Tickets',
+    icon: 'ios-paper-outline',
+    child: [
+      {
+        key: 'ViewTickets',
+        name: 'View Tickets',
+        link: '/app/ViewTickets',
+        icon: 'ios-menu-outline',
+      },
+    ]
+  },
+  {
+    key: 'Account Settings',
+    name: 'Account Settings',
+    icon: 'ios-map-outline',
+    child: [
+      {
+        key: 'Change-Password',
+        name: 'Change Password',
+        link: '/app/Change-Password',
+        icon: 'ios-notifications-outline',
+      },
+    ]
+  },
 ];

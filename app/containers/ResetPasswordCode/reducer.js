@@ -5,9 +5,12 @@
  */
 
 import { fromJS } from 'immutable';
-import { DEFAULT_ACTION } from './constants';
+import { DEFAULT_ACTION, SET_CODE_SUCCESS, SET_CODE } from './constants';
 
-export const initialState = fromJS({});
+export const initialState = fromJS({
+  code: null,
+  validCode: false
+});
 
 function resetPasswordCodeReducer(state = initialState, action) {
   switch (action.type) {
@@ -15,6 +18,15 @@ function resetPasswordCodeReducer(state = initialState, action) {
       return state;
     default:
       return state;
+
+    case SET_CODE:
+      return state.withMutations((mutableState) => {
+        mutableState.setIn(['code'], action.code);
+      });
+    case SET_CODE_SUCCESS:
+      return state.withMutations((mutableState) => {
+        mutableState.setIn(['validCode'], true);
+      });
   }
 }
 

@@ -30,7 +30,6 @@ export function* Register(action) {
     const result = yield call(registerwithmail, action.email, action.region, action.stationID, action.phonenumber, action.address, action.rta);
     if (result.status === 'success') {
       alert('Success!!');
-      window.location.href = '/app/RegisterPoliceStation';
       console.log('success');
       yield put(registerSuccess());
     } else {

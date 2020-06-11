@@ -29,7 +29,8 @@ import {
   ChangePassword,
   ResetPasswordCode,
   ResetPassword,
-  FeedBackForm
+  FeedBackForm,
+  ViewTicketsRta
 } from '../pageListAsync';
 
 class Application extends React.Component {
@@ -97,6 +98,7 @@ class Application extends React.Component {
                 <Route path="/app/PoliceStationProfile" component={PoliceStationProfile} />
                 <Route path="/app/Vehicle-Profile" component={VehicleProfiles} />
                 <Route path="/app/Driver-Profile" component={DriverProfile} />
+                <Route path="/app/ViewTickets" component={ViewTicketsRta} />
                 { !validEmail ? <Route path="/app/Change-Password" component={ChangePassword} /> : !validCode ? <Route path="/app/Change-Password" component={ResetPasswordCode} /> : <Route path="/app/Change-Password" component={ResetPassword} />}
                 <Route path="/app/pages/not-found" component={NotFound} />
                 <Route path="/app/pages/error" component={Error} />

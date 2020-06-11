@@ -1,6 +1,6 @@
 /**
  *
- * TicketData
+ * TicketDataRta
  *
  */
 
@@ -22,18 +22,27 @@ import FormControl from '@material-ui/core/FormControl';
 import InputLabel from '@material-ui/core/InputLabel';
 import Select from '@material-ui/core/Select';
 import { firestoreConnect, withFirebase } from 'react-redux-firebase';
+import Autocomplete from '@material-ui/lab/Autocomplete/Autocomplete';
+import TextField from '@material-ui/core/TextField';
 import { COLLECTIONS } from '../../config/dbConstants';
 import styles from './tableStyle-jss';
 
 /* eslint-disable react/prefer-stateless-function */
-function TicketData(props) {
+function TicketDataRta(props) {
   const {
     classes, auth, users, tickets
   } = props;
   if (!users || !auth || !tickets) {
     return (<Loading />);
   }
+  const [Station, setStation] = React.useState({ Station: null });
+
   const loadedUser = users.filter(user => user.email === auth.email)[0];
+  const AllpoliceStatuions = users.filter(user => user.type === 'policeStation');
+  const RTApoliceStations = AllpoliceStatuions.filter(user => user.rta.id === loadedUser.id);
+
+  const policeStationlist = RTApoliceStations.map(station => ({ Station: station.station_id }));
+
 
   const today = new Date();
   const mm = String(today.getMonth()).padStart(2, '0'); // January is 0!
@@ -51,7 +60,13 @@ function TicketData(props) {
   const handleTypeChange = event => {
     setType(event.target.value);
   };
-  const relatedTickets = tickets.filter(Ticket => Ticket.Station_id === loadedUser.station_id && Ticket.Status === Type && moment(Ticket.Time.toDate()).month() === parseInt(Month, 10) && moment(Ticket.Time.toDate()).year() === parseInt(Year, 10));
+  const handleStationChange = (event, value) => {
+    setStation(value);
+  };
+  let relatedTickets = [];
+  if (Station !== null) {
+    relatedTickets = tickets.filter(Ticket => Ticket.Station_id === Station.Station && Ticket.Status === Type && moment(Ticket.Time.toDate()).month() === parseInt(Month, 10) && moment(Ticket.Time.toDate()).year() === parseInt(Year, 10));
+  }
   const inputLabel = React.useRef(null);
   const [labelWidth, setLabelWidth] = React.useState(0);
   React.useEffect(() => {
@@ -61,8 +76,25 @@ function TicketData(props) {
     <Fragment>
       <div>
         <FormControl variant="outlined" className={classes.formControl}>
+          <Autocomplete
+            id="combo-box-policeStation"
+            options={policeStationlist}
+            getOptionLabel={(option) => option.Station}
+            className={classes.combo}
+            renderInput={(params) => (
+              <TextField
+                {...params}
+                label="Select Police Station"
+                variant="outlined"
+                style={{ minWidth: 200 }}
+              />
+            )}
+            onChange={handleStationChange}
+          />
+        </FormControl>
+        <FormControl variant="outlined" className={classes.formControl}>
           <InputLabel ref={inputLabel} id="demo-simple-select-outlined-label">
-            Type
+              Type
           </InputLabel>
           <Select
             labelId="demo-simple-select-outlined-label"
@@ -81,7 +113,7 @@ function TicketData(props) {
         </FormControl>
         <FormControl variant="outlined" className={classes.formControl}>
           <InputLabel ref={inputLabel} id="demo-simple-select-outlined-label">
-          Year
+              Year
           </InputLabel>
           <Select
             labelId="demo-simple-select-outlined-label"
@@ -100,7 +132,7 @@ function TicketData(props) {
         </FormControl>
         <FormControl variant="outlined" className={classes.formControl}>
           <InputLabel ref={inputLabel} id="demo-simple-select-outlined-label">
-          Month
+              Month
           </InputLabel>
           <Select
             labelId="demo-simple-select-outlined-label"
@@ -149,10 +181,9 @@ function TicketData(props) {
     </Fragment>
   );
 }
-
 const reducerFirestore = 'firestore';
 
-TicketData.propTypes = {
+TicketDataRta.propTypes = {
   classes: PropTypes.object.isRequired,
   // eslint-disable-next-line react/no-unused-prop-types
   dispatch: PropTypes.func.isRequired,
@@ -163,6 +194,7 @@ TicketData.propTypes = {
   // eslint-disable-next-line react/require-default-props
   tickets: PropTypes.array
 };
+
 const mapStateToProps = (state) => ({
   auth: state.getIn(['firebase']).auth,
   users: state.get(reducerFirestore).ordered[COLLECTIONS.USER],
@@ -178,4 +210,4 @@ export default compose(
   connect(
     mapStateToProps,
     // mapDispatchToProps
-  ))(withStyles(styles)(withFirebase(TicketData)));
+  ))(withStyles(styles)(withFirebase(TicketDataRta)));

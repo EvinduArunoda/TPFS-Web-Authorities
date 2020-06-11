@@ -140,7 +140,7 @@ function HandleOpenTickets(props) {
   };
   console.log(ticket);
 
-  const openTickets = tickets.filter(Ticket => Ticket.station_id === stationID && Ticket.Status === Type);
+  const openTickets = tickets.filter(Ticket => Ticket.Station_id === stationID && Ticket.Status === Type);
 
   const title = brand.name + ' - Handle Open Tickets';
   const description = brand.desc;

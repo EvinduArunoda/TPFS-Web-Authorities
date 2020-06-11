@@ -12,7 +12,6 @@ import Loading from 'dan-components/Loading';
 import { firestoreConnect } from 'react-redux-firebase';
 import moment from 'moment';
 import Button from '@material-ui/core/Button';
-import { Redirect } from 'react-router-dom';
 
 import reducer from './reducer';
 import saga from './saga';
@@ -49,23 +48,23 @@ const styles = theme => ({
 
 function HandleComplaints(props) {
   const {
-    complaints, SetID, redirect, classes
+    complaints, SetID, classes
   } = props;
 
 
   if (!complaints) {
     return (<Loading />);
   }
+  console.log(complaints);
 
-  if (redirect) {
-    return (<Redirect to="/app/FeedBack" />);
-  }
+  const filteredComplaints = complaints.filter(element => element.status === 0);
+
 
   // const giveFeedBack = (id) => {
   //   SetID(id);
   // };
 
-  const Complaints = complaints.map(complaint => (
+  const Complaints = filteredComplaints.map(complaint => (
     <PapperBlock key={complaint.id} title={complaint.title} desc={moment(complaint.timestamp.toDate()).calendar()} whiteBg icon="ios-menu-outline">
       <br />
       {' '}
@@ -104,14 +103,10 @@ HandleComplaints.propTypes = {
   SetID: PropTypes.function,
   // eslint-disable-next-line react/require-default-props
   // flipRedirect: PropTypes.function,
-  // eslint-disable-next-line react/require-default-props
-  redirect: PropTypes.boolean
 };
 const reducerFirestore = 'firestore';
-const complaintReducer = 'complaintReducer';
 
 const mapStateToProps = (state) => ({
-  redirect: state.getIn([complaintReducer, 'redirect']),
   auth: state.getIn(['firebase']).auth,
   complaints: state.get(reducerFirestore).ordered[COLLECTIONS.COMPLAINT]
 });

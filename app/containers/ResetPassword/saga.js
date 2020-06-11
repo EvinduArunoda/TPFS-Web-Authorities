@@ -3,17 +3,18 @@ import {
   all, fork, call, put, takeEvery // select, take were removed
 } from 'redux-saga/effects';
 import * as types from './constants';
-import { setEmailSuccess } from './actions';
 
 import firebase from '../../config/firebaseConfig';
 import 'firebase/functions';
 
 
-const askCode = async (email) => {
-  const SendCode = await firebase.functions().httpsCallable('SendCode');
+const resetPassword = async (email, code, password) => {
+  const ResetPassword = await firebase.functions().httpsCallable('ResetPassword');
   return (
-    SendCode({
-      email
+    ResetPassword({
+      email,
+      code,
+      password
     }).then(result => result.data)
       .catch(error => ({
         status: 'FAILED',
@@ -22,13 +23,13 @@ const askCode = async (email) => {
   );
 };
 
-export function* callSetEmail(action) {
+export function* callSetPassword(action) {
   try {
-    const result = yield call(askCode, action.email);
+    const result = yield call(resetPassword, action.email, action.code, action.password);
     if (result.status === 'success') {
-      alert('Success!!');
+      alert('New Password is Set!!');
       console.log('success');
-      yield put(setEmailSuccess());
+      window.location.href = '/';
     } else {
       alert('FAILED!! ' + result.message);
       window.location.href = '/';
@@ -40,13 +41,13 @@ export function* callSetEmail(action) {
 }
 
 // Individual exports for testing
-export function* setEmail() {
-  yield takeEvery(types.SET_EMAIL, callSetEmail);
+export function* setPassword() {
+  yield takeEvery(types.SET_PASSWORD, callSetPassword);
   // See example in containers/HomePage/saga.js
 }
 
 export default function* rootSaga() {
   yield all([
-    fork(setEmail),
+    fork(setPassword),
   ]);
 }

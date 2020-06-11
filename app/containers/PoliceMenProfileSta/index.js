@@ -39,8 +39,7 @@ function PoliceMenProfileSta(props) {
   const [employeeID, setEmployeeID] = React.useState(' ');
   const [Address, setAddress] = React.useState(' ');
   const [phone, setPhone] = React.useState(' ');
-  const [Station, setStation] = React.useState(null);
-  const [PoliceMen, setPoliceMen] = React.useState([]);
+  const [Station, setStation] = React.useState({ Station: null });
 
   const loadedRTA = webUsers.filter(user => user.email === auth.email)[0];
   const AllpoliceStatuions = webUsers.filter(user => user.type === 'policeStation');
@@ -48,14 +47,14 @@ function PoliceMenProfileSta(props) {
 
   const policeStationlist = RTApoliceStations.map(station => ({ Station: station.station_id }));
 
-  const getPoliceMen = (PoliceStation) => (policeMen.filter(user => user.station_id === PoliceStation));
 
   const handleStationChange = (event, value) => {
     setStation(value);
-    setPoliceMen(getPoliceMen(Station.Station));
-    setPoliceMen(getPoliceMen(Station.Station));
   };
-
+  let PoliceMen = [];
+  if (Station !== null) {
+    PoliceMen = policeMen.filter(user => user.station_id === Station.Station);
+  }
   const handlePoliceManChange = (event, value) => {
     setName((value.first_name + ' ' + value.last_name));
     setEmail(value.mail_id);

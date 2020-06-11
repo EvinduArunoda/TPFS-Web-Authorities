@@ -3,7 +3,7 @@ import {
   all, fork, call, put, takeEvery // select, take were removed
 } from 'redux-saga/effects';
 import * as types from './constants';
-import { setEmailSuccess } from './actions';
+import { setEmailSuccess } from '../ForgetPassword/actions';
 
 import firebase from '../../config/firebaseConfig';
 import 'firebase/functions';
@@ -40,7 +40,7 @@ export function* callSetEmail(action) {
 
 // Individual exports for testing
 export function* setEmail() {
-  yield takeEvery(types.SET_EMAIL, callSetEmail);
+  yield takeEvery(types.SUBMIT_EMAIL, callSetEmail);
   // See example in containers/HomePage/saga.js
 }
 

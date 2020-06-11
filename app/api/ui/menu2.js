@@ -50,4 +50,17 @@ module.exports = [
       },
     ]
   },
+  {
+    key: 'Account Settings',
+    name: 'Account Settings',
+    icon: 'ios-map-outline',
+    child: [
+      {
+        key: 'Change-Password',
+        name: 'Change Password',
+        link: '/app/Change-Password',
+        icon: 'ios-notifications-outline',
+      },
+    ]
+  },
 ];

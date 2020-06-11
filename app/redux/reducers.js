@@ -24,6 +24,7 @@ import submitPayment from '../containers/SubmitPaymentDetails/reducer';
 import assignPoliceStation from '../containers/AssignPoliceStation/reducer';
 import regDriverSec from '../containers/RegDriverSecondary/reducer';
 import addVehicleDetails from '../containers/AddVehicleDetails/reducer';
+import ForgetPassword from '../containers/ForgetPassword/reducer';
 /**
  * Creates the main reducer with the dynamically injected ones
  */
@@ -45,6 +46,7 @@ export default function createReducer(injectedReducers = {}) {
     regPolSta,
     regDriverSec,
     addVehicleDetails,
+    ForgetPassword,
     firebase: firebaseReducer,
     firestore: firestoreReducer,
     language: languageProviderReducer,

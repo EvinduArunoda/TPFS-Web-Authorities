@@ -7,8 +7,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { createStructuredSelector } from 'reselect';
-// eslint-disable-next-line no-unused-vars
 import { bindActionCreators, compose } from 'redux';
 import brand from 'dan-api/dummy/brand';
 import injectSaga from 'utils/injectSaga';
@@ -16,19 +14,19 @@ import injectReducer from 'utils/injectReducer';
 import { withStyles } from '@material-ui/core/styles';
 import { Helmet } from 'react-helmet';
 import ResetForm from '../../components/Forms/ResetCodeForm';
-import makeSelectResetPasswordCode from './selectors';
 import reducer from './reducer';
 import saga from './saga';
 import styles from '../../components/Forms/user-jss';
+import { setCode } from './actions';
 
 /* eslint-disable react/prefer-stateless-function */
 export class ResetPasswordCode extends React.Component {
-  state = {
-  }
+  state = {}
 
-  // submitForm(values) {
-  //
-  // }
+  submitForm(values) {
+    // eslint-disable-next-line react/destructuring-assignment
+    this.props.submitCode(values.get('code'), this.props.email);
+  }
 
   render() {
     const title = brand.name + ' - Reset Password';
@@ -57,17 +55,22 @@ export class ResetPasswordCode extends React.Component {
 ResetPasswordCode.propTypes = {
   // eslint-disable-next-line react/no-unused-prop-types,react/require-default-props
   dispatch: PropTypes.func,
-  classes: PropTypes.object.isRequired
+  classes: PropTypes.object.isRequired,
+  // eslint-disable-next-line react/require-default-props
+  email: PropTypes.string,
+  // eslint-disable-next-line react/require-default-props
+  submitCode: PropTypes.func
 
 };
 
-const mapStateToProps = createStructuredSelector({
-  resetPasswordCode: makeSelectResetPasswordCode()
+const forgetPasswordReducer = 'ForgetPassword';
+
+const mapStateToProps = (state) => ({
+  email: state.getIn([forgetPasswordReducer, 'email'])
 });
 
-// eslint-disable-next-line no-unused-vars
 const mapDispatchToProps = (dispatch) => ({
-  // submitEmail: bindActionCreators(setEmail, dispatch),
+  submitCode: bindActionCreators(setCode, dispatch),
 });
 
 const withConnect = connect(

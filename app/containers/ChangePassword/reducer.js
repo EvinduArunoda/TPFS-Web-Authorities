@@ -1,16 +1,15 @@
 /*
  *
- * ResetPassword reducer
+ * ChangePassword reducer
  *
  */
 
 import { fromJS } from 'immutable';
 import { DEFAULT_ACTION } from './constants';
 
-export const initialState = fromJS({
-});
+export const initialState = fromJS({});
 
-function resetPasswordReducer(state = initialState, action) {
+function changePasswordReducer(state = initialState, action) {
   switch (action.type) {
     case DEFAULT_ACTION:
       return state;
@@ -19,4 +18,4 @@ function resetPasswordReducer(state = initialState, action) {
   }
 }
 
-export default resetPasswordReducer;
+export default changePasswordReducer;
