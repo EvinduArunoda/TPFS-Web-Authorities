@@ -31,7 +31,8 @@ import {
   ResetPassword,
   FeedBackForm,
   ViewTicketsRta,
-  AddRegionalRules
+  AddRegionalRules,
+  ManageRules
 } from '../pageListAsync';
 
 class Application extends React.Component {
@@ -102,6 +103,7 @@ class Application extends React.Component {
                 <Route path="/app/ViewTickets" component={ViewTicketsRta} />
                 { !validEmail ? <Route path="/app/Change-Password" component={ChangePassword} /> : !validCode ? <Route path="/app/Change-Password" component={ResetPasswordCode} /> : <Route path="/app/Change-Password" component={ResetPassword} />}
                 <Route path="/app/Regional-Rules" component={AddRegionalRules} />
+                <Route path="/app/Manage-Rules" component={ManageRules} />
                 <Route path="/app/pages/error" component={Error} />
                 <Route component={NotFound} />
               </Switch>

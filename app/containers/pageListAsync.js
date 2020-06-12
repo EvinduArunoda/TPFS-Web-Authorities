@@ -157,3 +157,7 @@ export const AddRegionalRules = Loadable({
   loader: () => import('./AddRegionalRules'),
   loading: Loading,
 });
+export const ManageRules = Loadable({
+  loader: () => import('./ViewRegionalRules'),
+  loading: Loading,
+});
