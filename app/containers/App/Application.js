@@ -32,13 +32,14 @@ import {
   FeedBackForm,
   ViewTicketsRta,
   AddRegionalRules,
-  ManageRules
+  ManageRules,
+  ChangePoliceStation
 } from '../pageListAsync';
 
 class Application extends React.Component {
   render() {
     const {
-      changeMode, history, auth, users, registered, registeredPoliceMen, registeredVehicle, ticketID, ticketStatus, validEmail, validCode, complaintIDSet
+      changeMode, history, auth, users, registered, registeredPoliceMen, registeredVehicle, ticketID, ticketStatus, validEmail, validCode, complaintIDSet, emailSet
     } = this.props;
     if (!auth.isLoaded || !isLoaded(users)) return null;
     const loadedUser = users.filter(user => user.email === auth.email)[0];
@@ -96,7 +97,7 @@ class Application extends React.Component {
                 {!registered ? <Route path="/app/RegisterDrivers" component={RegisterDrivers} /> : <Route path="/app/RegisterDrivers" component={RegDriverSec} />}
                 <Route path="/app/RegisterDrivers" component={RegisterDrivers} />
                 {!registeredVehicle ? <Route path="/app/RegisterVehicles" component={RegisterVehicles} /> : <Route path="/app/RegisterVehicles" component={AddVehicleDetails} />}
-                <Route path="/app/Policeman-Profile" component={PoliceMenProfileSta} />
+                {!emailSet ? <Route path="/app/Policeman-Profile" component={PoliceMenProfileSta} /> : <Route path="/app/Policeman-Profile" component={ChangePoliceStation} />}
                 <Route path="/app/PoliceStationProfile" component={PoliceStationProfile} />
                 <Route path="/app/Vehicle-Profile" component={VehicleProfiles} />
                 <Route path="/app/Driver-Profile" component={DriverProfile} />
@@ -142,6 +143,8 @@ Application.propTypes = {
   validCode: PropTypes.boolean,
   // eslint-disable-next-line react/require-default-props
   complaintIDSet: PropTypes.boolean,
+  // eslint-disable-next-line react/require-default-props
+  emailSet: PropTypes.boolean,
 };
 
 const reducerFirestore = 'firestore';
@@ -152,6 +155,7 @@ const tktReducer = 'openTktReducer';
 const forgetPasswordReducer = 'ForgetPassword';
 const resetPasswordCodeReducer = 'resetPasswordCode';
 const complaintReducer = 'complaintReducer';
+const policemanProfileReducer = 'PolicemanProfile';
 
 const mapStateToProps = (state) => ({
   auth: state.getIn(['firebase']).auth,
@@ -164,6 +168,7 @@ const mapStateToProps = (state) => ({
   validEmail: state.getIn([forgetPasswordReducer, 'validEmail']),
   validCode: state.getIn([resetPasswordCodeReducer, 'validCode']),
   complaintIDSet: state.getIn([complaintReducer, 'redirect']),
+  emailSet: state.getIn([policemanProfileReducer, 'emailSet']),
 });
 
 const AppInit = compose(

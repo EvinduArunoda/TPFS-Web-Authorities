@@ -10,6 +10,28 @@ const styles = theme => ({
       paddingLeft: 0
     }
   },
+  btnArea: {
+    display: 'flex',
+    justifyContent: 'space-around',
+    margin: `${theme.spacing(2)}px 0`,
+    fontSize: 12,
+    '& $label': {
+      fontSize: 12,
+      '& span': {
+        fontSize: 12
+      }
+    },
+    '& button': {
+      margin: `0 ${theme.spacing(1)}px`
+    },
+    [theme.breakpoints.down('xs')]: {
+      flexDirection: 'column',
+      '& button': {
+        width: '100%',
+        margin: 5
+      }
+    },
+  },
   avatar: {
     margin: 10,
   },

@@ -161,3 +161,7 @@ export const ManageRules = Loadable({
   loader: () => import('./ViewRegionalRules'),
   loading: Loading,
 });
+export const ChangePoliceStation = Loadable({
+  loader: () => import('./EditPoliceStation'),
+  loading: Loading,
+});

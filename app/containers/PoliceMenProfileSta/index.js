@@ -14,21 +14,24 @@ import LocationOn from '@material-ui/icons/LocationOn';
 import LocalPhone from '@material-ui/icons/LocalPhone';
 import EmailIcon from '@material-ui/icons/Email';
 import TextField from '@material-ui/core/TextField';
+import { bindActionCreators, compose } from 'redux';
 import Autocomplete from '@material-ui/lab/Autocomplete';
-import { compose } from 'redux';
 import { firestoreConnect, withFirebase } from 'react-redux-firebase';
 import Loading from 'dan-components/Loading';
 import { connect } from 'react-redux';
 import FormControl from '@material-ui/core/FormControl';
+import Button from '@material-ui/core/Button';
 import { COLLECTIONS } from '../../config/dbConstants';
 import styles from './profile-jss';
+import { editStation } from './actions';
+
 // import firestore from '../../config/firebaseConfig';
 
 function PoliceMenProfileSta(props) {
   // const policeStation = 'Default';
   // const policeMan = 'Default';
   const {
-    classes, auth, policeMen, webUsers
+    classes, auth, policeMen, webUsers, SubmitData
   } = props;
   if (!auth || !policeMen || !webUsers) {
     return (<Loading />);
@@ -63,6 +66,9 @@ function PoliceMenProfileSta(props) {
     setPhone(value.phone_number);
   };
 
+  const handleSubmit = () => {
+    SubmitData(email);
+  };
 
   const title = brand.name + ' - PoliceMen Profiles';
   const description = brand.desc;
@@ -112,35 +118,48 @@ function PoliceMenProfileSta(props) {
           />
         </FormControl>
       </PapperBlock>
-      <PapperBlock title={name} icon="ios-contact-outline" whiteBg noMargin desc={employeeID}>
-        <Divider className={classes.divider} />
-        <List dense className={classes.profileList}>
-          <ListItem>
-            <ListItemAvatar>
-              <Avatar>
-                <EmailIcon />
-              </Avatar>
-            </ListItemAvatar>
-            <ListItemText primary="Email Address" secondary={email} />
-          </ListItem>
-          <ListItem>
-            <ListItemAvatar>
-              <Avatar>
-                <LocalPhone />
-              </Avatar>
-            </ListItemAvatar>
-            <ListItemText primary="Contact Number" secondary={phone} />
-          </ListItem>
-          <ListItem>
-            <ListItemAvatar>
-              <Avatar>
-                <LocationOn />
-              </Avatar>
-            </ListItemAvatar>
-            <ListItemText primary="Address" secondary={Address} />
-          </ListItem>
-        </List>
-      </PapperBlock>
+      { name !== ' ' ? (
+
+        <PapperBlock title={name} icon="ios-contact-outline" whiteBg noMargin desc={employeeID}>
+          <Divider className={classes.divider} />
+          <List dense className={classes.profileList}>
+            <ListItem>
+              <ListItemAvatar>
+                <Avatar>
+                  <EmailIcon />
+                </Avatar>
+              </ListItemAvatar>
+              <ListItemText primary="Email Address" secondary={email} />
+            </ListItem>
+            <ListItem>
+              <ListItemAvatar>
+                <Avatar>
+                  <LocalPhone />
+                </Avatar>
+              </ListItemAvatar>
+              <ListItemText primary="Contact Number" secondary={phone} />
+            </ListItem>
+            <ListItem>
+              <ListItemAvatar>
+                <Avatar>
+                  <LocationOn />
+                </Avatar>
+              </ListItemAvatar>
+              <ListItemText primary="Address" secondary={Address} />
+            </ListItem>
+          </List>
+          <Divider className={classes.divider} />
+          {/* eslint-disable-next-line jsx-a11y/click-events-have-key-events,jsx-a11y/no-noninteractive-element-interactions */}
+          <form onClick={handleSubmit}>
+            <div className={classes.btnArea}>
+              <Button variant="contained" color="primary" type="button">
+              Change Police Station
+              </Button>
+            </div>
+          </form>
+
+        </PapperBlock>
+      ) : <div />}
     </div>
   );
 }
@@ -154,7 +173,9 @@ PoliceMenProfileSta.propTypes = {
   // eslint-disable-next-line react/require-default-props
   webUsers: PropTypes.array,
   // eslint-disable-next-line react/require-default-props
-  policeMen: PropTypes.array
+  policeMen: PropTypes.array,
+  // eslint-disable-next-line react/require-default-props
+  SubmitData: PropTypes.func
 };
 
 const mapStateToProps = (state) => ({
@@ -162,11 +183,14 @@ const mapStateToProps = (state) => ({
   webUsers: state.get(reducerFirestore).ordered[COLLECTIONS.USER],
   policeMen: state.get(reducerFirestore).ordered[COLLECTIONS.POLICEMAN],
 });
+const mapDispatchToProps = (dispatch) => ({
+  SubmitData: bindActionCreators(editStation, dispatch)
+});
 export default compose(
   firestoreConnect(() => [
     { collection: COLLECTIONS.USER },
     { collection: COLLECTIONS.POLICEMAN },
   ]),
   connect(
-    mapStateToProps,
+    mapStateToProps, mapDispatchToProps
   ))(withStyles(styles)(withFirebase(PoliceMenProfileSta)));
