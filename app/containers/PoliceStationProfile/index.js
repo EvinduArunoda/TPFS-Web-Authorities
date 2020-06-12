@@ -87,35 +87,38 @@ function PoliceStationProfile(props) {
           onChange={handleStationChange}
         />
       </PapperBlock>
-      <PapperBlock title={region} icon="ios-contact-outline" whiteBg noMargin desc={stationID}>
-        <Divider className={classes.divider} />
-        <List dense className={classes.profileList}>
-          <ListItem>
-            <ListItemAvatar>
-              <Avatar>
-                <EmailIcon />
-              </Avatar>
-            </ListItemAvatar>
-            <ListItemText primary="Email Address" secondary={email} />
-          </ListItem>
-          <ListItem>
-            <ListItemAvatar>
-              <Avatar>
-                <LocalPhone />
-              </Avatar>
-            </ListItemAvatar>
-            <ListItemText primary="Contact Number" secondary={phoneNo} />
-          </ListItem>
-          <ListItem>
-            <ListItemAvatar>
-              <Avatar>
-                <LocationOn />
-              </Avatar>
-            </ListItemAvatar>
-            <ListItemText primary="Address" secondary={address} />
-          </ListItem>
-        </List>
-      </PapperBlock>
+      {stationID !== '  '
+        ? (
+          <PapperBlock title={region} icon="ios-contact-outline" whiteBg noMargin desc={stationID}>
+            <Divider className={classes.divider} />
+            <List dense className={classes.profileList}>
+              <ListItem>
+                <ListItemAvatar>
+                  <Avatar>
+                    <EmailIcon />
+                  </Avatar>
+                </ListItemAvatar>
+                <ListItemText primary="Email Address" secondary={email} />
+              </ListItem>
+              <ListItem>
+                <ListItemAvatar>
+                  <Avatar>
+                    <LocalPhone />
+                  </Avatar>
+                </ListItemAvatar>
+                <ListItemText primary="Contact Number" secondary={phoneNo} />
+              </ListItem>
+              <ListItem>
+                <ListItemAvatar>
+                  <Avatar>
+                    <LocationOn />
+                  </Avatar>
+                </ListItemAvatar>
+                <ListItemText primary="Address" secondary={address} />
+              </ListItem>
+            </List>
+          </PapperBlock>
+        ) : <div />}
     </div>
   );
 }

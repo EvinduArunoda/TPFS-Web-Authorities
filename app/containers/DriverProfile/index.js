@@ -33,7 +33,7 @@ function DriverProfile(props) {
   }
   const [driver, setDriver] = React.useState('Default');
 
-  const [licenseNumber, setlicenseNumber] = React.useState('  ');
+  const [licenseNumber, setlicenseNumber] = React.useState(' ');
   const [NIC, setNIC] = React.useState('  ');
   const [name, setName] = React.useState('  ');
   const [category, setcategory] = React.useState('  ');
@@ -82,35 +82,39 @@ function DriverProfile(props) {
           onChange={handleStationChange}
         />
       </PapperBlock>
-      <PapperBlock title={name} icon="ios-car-outline" whiteBg noMargin desc={NIC}>
-        <Divider className={classes.divider} />
-        <List dense className={classes.profileList}>
-          <ListItem>
-            <ListItemAvatar>
-              <Avatar>
-                <AccountCircleIcon />
-              </Avatar>
-            </ListItemAvatar>
-            <ListItemText primary="License Number" secondary={licenseNumber} />
-          </ListItem>
-          <ListItem>
-            <ListItemAvatar>
-              <Avatar>
-                <NoteAddIcon />
-              </Avatar>
-            </ListItemAvatar>
-            <ListItemText primary="address" secondary={address} />
-          </ListItem>
-          <ListItem>
-            <ListItemAvatar>
-              <Avatar>
-                <SecurityIcon />
-              </Avatar>
-            </ListItemAvatar>
-            <ListItemText primary="Category" secondary={category} />
-          </ListItem>
-        </List>
-      </PapperBlock>
+      {licenseNumber !== ' '
+        ? (
+          <PapperBlock title={name} icon="ios-car-outline" whiteBg noMargin desc={NIC}>
+            <Divider className={classes.divider} />
+            <List dense className={classes.profileList}>
+              <ListItem>
+                <ListItemAvatar>
+                  <Avatar>
+                    <AccountCircleIcon />
+                  </Avatar>
+                </ListItemAvatar>
+                <ListItemText primary="License Number" secondary={licenseNumber} />
+              </ListItem>
+              <ListItem>
+                <ListItemAvatar>
+                  <Avatar>
+                    <NoteAddIcon />
+                  </Avatar>
+                </ListItemAvatar>
+                <ListItemText primary="address" secondary={address} />
+              </ListItem>
+              <ListItem>
+                <ListItemAvatar>
+                  <Avatar>
+                    <SecurityIcon />
+                  </Avatar>
+                </ListItemAvatar>
+                <ListItemText primary="Category" secondary={category} />
+              </ListItem>
+            </List>
+          </PapperBlock>
+        )
+        : <div />}
     </div>
   );
 }

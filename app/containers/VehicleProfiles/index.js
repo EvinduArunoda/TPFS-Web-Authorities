@@ -81,35 +81,38 @@ function VehicleProfile(props) {
           onChange={handleStationChange}
         />
       </PapperBlock>
-      <PapperBlock title={licensePlate} icon="ios-car-outline" whiteBg noMargin desc={makeModel}>
-        <Divider className={classes.divider} />
-        <List dense className={classes.profileList}>
-          <ListItem>
-            <ListItemAvatar>
-              <Avatar>
-                <AccountCircleIcon />
-              </Avatar>
-            </ListItemAvatar>
-            <ListItemText primary="Owner NIC" secondary={owner} />
-          </ListItem>
-          <ListItem>
-            <ListItemAvatar>
-              <Avatar>
-                <NoteAddIcon />
-              </Avatar>
-            </ListItemAvatar>
-            <ListItemText primary="Registered Number" secondary={regNo} />
-          </ListItem>
-          <ListItem>
-            <ListItemAvatar>
-              <Avatar>
-                <SecurityIcon />
-              </Avatar>
-            </ListItemAvatar>
-            <ListItemText primary="Insurance Number" secondary={insuranceNumber} />
-          </ListItem>
-        </List>
-      </PapperBlock>
+      {licensePlate !== '  '
+        ? (
+          <PapperBlock title={licensePlate} icon="ios-car-outline" whiteBg noMargin desc={makeModel}>
+            <Divider className={classes.divider} />
+            <List dense className={classes.profileList}>
+              <ListItem>
+                <ListItemAvatar>
+                  <Avatar>
+                    <AccountCircleIcon />
+                  </Avatar>
+                </ListItemAvatar>
+                <ListItemText primary="Owner NIC" secondary={owner} />
+              </ListItem>
+              <ListItem>
+                <ListItemAvatar>
+                  <Avatar>
+                    <NoteAddIcon />
+                  </Avatar>
+                </ListItemAvatar>
+                <ListItemText primary="Registered Number" secondary={regNo} />
+              </ListItem>
+              <ListItem>
+                <ListItemAvatar>
+                  <Avatar>
+                    <SecurityIcon />
+                  </Avatar>
+                </ListItemAvatar>
+                <ListItemText primary="Insurance Number" secondary={insuranceNumber} />
+              </ListItem>
+            </List>
+          </PapperBlock>
+        ) : <div />}
     </div>
   );
 }
