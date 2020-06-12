@@ -153,3 +153,7 @@ export const FeedBackForm = Loadable({
   loader: () => import('./GiveFeedBack'),
   loading: Loading,
 });
+export const AddRegionalRules = Loadable({
+  loader: () => import('./AddRegionalRules'),
+  loading: Loading,
+});

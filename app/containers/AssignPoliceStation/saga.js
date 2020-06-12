@@ -5,7 +5,7 @@ import * as types from './constants';
 import 'firebase/functions';
 import firebase from '../../config/firebaseConfig';
 import { assignSuccess } from './actions';
-
+import { Success } from '../RegisterPoliceman/actions';
 const submitData = async (email, station) => {
   const AssignPoliceStation = await firebase.functions().httpsCallable('AssignPoliceStation');
   return (
@@ -26,7 +26,7 @@ export function* Submit(action) {
     if (result.status === 'success') {
       alert('Success!!');
       yield put(assignSuccess());
-      window.location.href = '/app/RegisterPolicemen';
+      yield put(Success());
     } else {
       alert('FAILED!! Here' + result.message);
       window.location.href = '/app/RegisterPolicemen';

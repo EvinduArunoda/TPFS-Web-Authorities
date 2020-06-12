@@ -95,7 +95,7 @@ module.exports = [
       {
         key: 'Manage-Regional-Rules',
         name: 'Manage Regional Rules',
-        link: '/app/ManageRegionalRules',
+        link: '/app/Regional-Rules',
         icon: 'ios-notifications-outline',
       },
     ]

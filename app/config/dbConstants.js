@@ -9,5 +9,6 @@ export const COLLECTIONS = {
   VEHICLE: 'vehicle',
   FEEDBACK: 'FeedBacks',
   TICKET: 'Ticket',
-  PAYMENT: 'Payment'
+  PAYMENT: 'Payment',
+  NOTIFICATION: 'Notification'
 };

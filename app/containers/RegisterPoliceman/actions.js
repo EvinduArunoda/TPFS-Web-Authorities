@@ -30,3 +30,8 @@ export function registerSuccess() {
     type: types.REGSUCCESS
   };
 }
+export function Success() {
+  return {
+    type: types.SUCCESS
+  };
+}
